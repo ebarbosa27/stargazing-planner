@@ -19,7 +19,7 @@ async function seed() {
       username: faker.internet.username(),
       password: faker.internet.password(),
     };
-    const result = await createUser(userData);
+    await createUser(userData);
   }
 
   // create event created by user
@@ -29,7 +29,7 @@ async function seed() {
       location: `${faker.location.latitude()}, ${faker.location.longitude()}`,
       userId: i,
     };
-    const result = await createEvent(eventData);
+    await createEvent(eventData);
   }
 
   // create hotspot created by user
@@ -38,7 +38,7 @@ async function seed() {
       location: `${faker.location.latitude()}, ${faker.location.longitude()}`,
       userId: i,
     };
-    const result = await createHotspot(hotspotData);
+    await createHotspot(hotspotData);
   }
 
   // create rsvp for event and is linked to user that is rsvp'ing
@@ -52,7 +52,7 @@ async function seed() {
       status: randomStatus,
     };
     try {
-      const result = await createRSVP(rsvpData);
+      await createRSVP(rsvpData);
     } catch (err) {
       if (err.code == "23505") {
         continue;
@@ -72,7 +72,7 @@ async function seed() {
       eventId: randomEventId,
     };
     try {
-      const result = await createFavorite(favoriteDate);
+      await createFavorite(favoriteDate);
     } catch (err) {
       if (err.code == "23505") {
         continue;
