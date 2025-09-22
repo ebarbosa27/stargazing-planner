@@ -4,6 +4,7 @@ import { createUser } from "./queries/users.js";
 import { createEvent } from "./queries/events.js";
 import { createHotspot } from "./queries/hotspots.js";
 import { createRSVP } from "./queries/rsvps.js";
+import { createFavorite } from "./queries/favorites.js";
 
 await db.connect();
 await seed();
@@ -52,7 +53,6 @@ async function seed() {
     };
     try {
       const result = await createRSVP(rsvpData);
-      console.log(result);
     } catch (err) {
       if (err.code == "23505") {
         continue;
@@ -64,4 +64,22 @@ async function seed() {
   }
 
   // create favorite for event created by user
+  for (let i = 6; i <= 15; i++) {
+    const randomEventId = Math.ceil(Math.random() * 5);
+
+    const favoriteDate = {
+      userId: i,
+      eventId: randomEventId,
+    };
+    try {
+      const result = await createFavorite(favoriteDate);
+    } catch (err) {
+      if (err.code == "23505") {
+        continue;
+      }
+      console.log(err);
+    }
+
+    if (Math.random() < 0.7) i--;
+  }
 }
