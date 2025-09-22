@@ -1,17 +1,50 @@
 #navbar {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 1.2rem 1rem;
-  border: solid beige;
+  border: solid #1f2833;
+  border-radius: 1rem;
+  background-color: #1f2833;
+}
+
+.pageName a {
+  margin: 0;
+  font-size: 20px;
+  color: #ffffff;
+  text-decoration: none;
 }
 
 .navLinks {
+  height: 100%;
   display: flex;
   gap: 2rem;
 }
 
 .navLinks a {
-  color: white;
-  text-decoration: none;
   font-weight: bold;
+  color: #ffffff;
+  text-decoration: none;
+}
+
+.navLinks a:hover {
+  scale: 1.15;
+  text-decoration: underline;
+}
+
+.accountContainer {
+  height: 100%;
+  border-left: solid #ffffff 0.1rem;
+  padding-left: 1rem;
+}
+
+.accountContainer a {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: normal;
+  padding: 0.5rem;
+}
+
+.activeSite {
+  text-decoration: underline !important;
 }

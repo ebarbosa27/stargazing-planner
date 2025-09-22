@@ -1,7 +1,7 @@
 @import url(https://fonts.googleapis.com/css?family=Montserrat:100,200,300,regular,500,600,700,800,900,100italic,200italic,300italic,italic,500italic,600italic,700italic,800italic,900italic);
 
 body {
-  background-color: rgb(10, 1, 22);
-  color: rgb(255, 239, 220);
+  background-color: #0b0c10;
+  color: #c5c6c7;
   font-family: Montserrat;
 }
