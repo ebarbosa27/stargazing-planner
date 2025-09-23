@@ -5,3 +5,7 @@ body {
   color: #c5c6c7;
   font-family: Montserrat;
 }
+
+body * {
+  box-sizing: border-box;
+}

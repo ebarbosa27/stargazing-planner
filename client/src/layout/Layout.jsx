@@ -1,11 +1,13 @@
 import { Outlet } from "react-router";
 import Navbar from "./Navbar";
 
-export default function Layout() {
+export default function Layout({ disableNavbar }) {
   return (
     <>
-      <Navbar />
-      <Outlet />
+      {disableNavbar ? "" : <Navbar />}
+      <div id="content">
+        <Outlet />
+      </div>
     </>
   );
 }

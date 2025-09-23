@@ -1,0 +1,14 @@
+#app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#app #navbar {
+  width: 98vw;
+}
+
+#app #content {
+  width: 95vw;
+  margin: 1.5rem;
+}
