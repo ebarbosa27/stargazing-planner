@@ -14,7 +14,7 @@ export default function Login() {
     const password = formData.get("password");
     try {
       if (!username || !password) {
-        throw Error("Email, username, and password is required");
+        throw Error("Username and password is required");
       }
       await login({ username, password });
       navigate("/");
