@@ -18,7 +18,9 @@ export default function Navbar() {
           Schedule
         </NavLink>
         <div className="accountContainer">
-          <NavLink>Login / Sign Up</NavLink>
+          <NavLink to="/register" className={({ isActive }) => (isActive ? "activeSite" : "")}>
+            Login / Sign Up
+          </NavLink>
           {/* change to switch to account button when logged in */}
         </div>
       </div>
