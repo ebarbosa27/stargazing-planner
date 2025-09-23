@@ -2,15 +2,28 @@ import express from "express";
 const router = express.Router();
 export default router;
 
-import { createUser } from "../db/queries/users.js";
+import requireBody from "../middleware/requireBody.js";
+import { createUser, getUserByUsernamePassword } from "../db/queries/users.js";
 import { createToken } from "../utils/jwt.js";
 
-router.route("/register").post(async (req, res) => {
+router.route("/register").post(requireBody(["username", "password"]), async (req, res) => {
   try {
     const user = await createUser(req.body);
     const token = createToken({ id: user.id });
-    res.status(201).send(token);
+    res.status(201).json({ token: token });
   } catch (err) {
-    res.status(500).send(err);
+    res.status(500).json(err);
+  }
+});
+
+router.route("/login").post(requireBody(["username", "password"]), async (req, res) => {
+  try {
+    const user = await getUserByUsernamePassword(req.body);
+    if (!user) res.status(401).json({ message: "Invalid credentials" });
+
+    const token = createToken({ id: user.id });
+    res.status(200).json({ token: token });
+  } catch (err) {
+    res.status(500).json(err);
   }
 });

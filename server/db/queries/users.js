@@ -15,3 +15,15 @@ export async function createUser({ username, password }) {
   } = await db.query(sql, [username, hashedPassword]);
   return user;
 }
+
+export async function getUserByUsernamePassword({ username, password }) {
+  const sql = `SELECT * FROM users WHERE username ILIKE $1`;
+  const {
+    rows: [user],
+  } = await db.query(sql, [username]);
+
+  const validPassword = await bcrypt.compare(password, user.password);
+  if (!validPassword) return null;
+
+  return user;
+}
