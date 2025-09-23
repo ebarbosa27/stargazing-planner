@@ -10,10 +10,12 @@ function App() {
   return (
     <div id="app">
       <Routes>
-        <Route path="/" element={<Layout />}>
+        <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
-          <Route path="/register" element={<Register />} />
           <Route path="/test" element={<TestPage />} />
+        </Route>
+        <Route element={<Layout disableNavbar />}>
+          <Route path="/register" element={<Register />} />
         </Route>
       </Routes>
     </div>

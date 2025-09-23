@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useAuth } from "../auth/AuthContext";
 import { Link, useNavigate } from "react-router";
+import "./register.css";
 
 export default function Register() {
   const [error, setError] = useState(null);
@@ -9,13 +10,14 @@ export default function Register() {
   const navigate = useNavigate();
 
   async function handleRegister(formData) {
+    const email = formData.get("email");
     const username = formData.get("username");
     const password = formData.get("password");
     try {
       if (!username || !password) {
-        throw Error("Email and password is required");
+        throw Error("Email, username, and password is required");
       }
-      await register({ username, password });
+      await register({ email, username, password });
       navigate("/");
     } catch (err) {
       setError(err.message);
@@ -24,20 +26,24 @@ export default function Register() {
 
   return (
     <div id="accountPage">
-      <h2>Register</h2>
       <form action={handleRegister}>
+        <h2>Create Account</h2>
         <label>
-          <span>username</span>
+          <span>Email</span>
+          <input type="text" name="Email" />
+        </label>
+        <label>
+          <span>Username</span>
           <input type="text" name="username" />
         </label>
         <label>
-          <span>password</span>
+          <span>Password</span>
           <input type="password" name="password" />
         </label>
+        {error ? <output>{error}</output> : ""}
         <button type="submit">Register</button>
+        <Link to="/login">{"Already have an account? Login here!"}</Link>
       </form>
-      {error ? <output>{error}</output> : ""}
-      <Link to="/login">{"Already have an account? Login here!"}</Link>
     </div>
   );
 }
