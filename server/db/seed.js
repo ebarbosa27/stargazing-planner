@@ -26,7 +26,7 @@ async function seed() {
   for (let i = 1; i <= 5; i++) {
     const eventData = {
       date: faker.date.anytime(),
-      location: `${faker.location.latitude()}, ${faker.location.longitude()}`,
+      location: { longitude: faker.location.longitude(), latitude: faker.location.latitude() },
       userId: i,
     };
     await createEvent(eventData);
@@ -35,7 +35,7 @@ async function seed() {
   // create hotspot created by user
   for (let i = 4; i <= 8; i++) {
     const hotspotData = {
-      location: `${faker.location.latitude()}, ${faker.location.longitude()}`,
+      location: { longitude: faker.location.longitude(), latitude: faker.location.latitude() },
       userId: i,
     };
     await createHotspot(hotspotData);
