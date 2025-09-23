@@ -5,13 +5,13 @@ const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
   const [token, setToken] = useState(null);
-  async function register({ username, password }) {
+  async function register({ email, username, password }) {
     const response = await fetch(API + "/users/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify({ email, username, password }),
     });
 
     const result = await response.json();
@@ -20,13 +20,13 @@ export function AuthProvider({ children }) {
     setToken(result.token);
   }
 
-  async function login({ email, password }) {
+  async function login({ username, password }) {
     const response = await fetch(API + "/users/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ email, password }),
+      body: JSON.stringify({ username, password }),
     });
     const result = await response.json();
     if (!response.ok) throw result;

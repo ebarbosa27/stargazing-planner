@@ -5,6 +5,7 @@ import Layout from "./layout/Layout";
 import Home from "./pages/Home";
 import TestPage from "./pages/Test";
 import Register from "./pages/Register";
+import Login from "./pages/Login";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           <Route path="/test" element={<TestPage />} />
         </Route>
         <Route element={<Layout disableNavbar />}>
+          <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
         </Route>
       </Routes>

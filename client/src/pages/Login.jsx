@@ -3,21 +3,20 @@ import { useAuth } from "../auth/AuthContext";
 import { Link, useNavigate } from "react-router";
 import "./auth.css";
 
-export default function Register() {
+export default function Login() {
   const [error, setError] = useState(null);
 
-  const { register } = useAuth();
+  const { login } = useAuth();
   const navigate = useNavigate();
 
-  async function handleRegister(formData) {
-    const email = formData.get("email");
+  async function handleLogin(formData) {
     const username = formData.get("username");
     const password = formData.get("password");
     try {
       if (!username || !password) {
         throw Error("Email, username, and password is required");
       }
-      await register({ email, username, password });
+      await login({ username, password });
       navigate("/");
     } catch (err) {
       setError(err.message);
@@ -26,12 +25,8 @@ export default function Register() {
 
   return (
     <div id="accountPage">
-      <form action={handleRegister}>
-        <h2>Create Account</h2>
-        <label>
-          <span>Email</span>
-          <input type="text" name="Email" />
-        </label>
+      <form action={handleLogin}>
+        <h2>Login</h2>
         <label>
           <span>Username</span>
           <input type="text" name="username" />
@@ -41,8 +36,8 @@ export default function Register() {
           <input type="password" name="password" />
         </label>
         {error ? <output>{error}</output> : ""}
-        <button type="submit">Register</button>
-        <Link to="/login">{"Already have an account? Login here!"}</Link>
+        <button type="submit">Login</button>
+        <Link to="/register">{"Dont't have an account? Register here!"}</Link>
       </form>
     </div>
   );
