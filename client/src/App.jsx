@@ -9,6 +9,7 @@ import Login from "./pages/Login";
 import Posts from "./pages/Posts";
 import Events from "./pages/Events";
 import Schedule from "./pages/Schedule";
+import Account from "./pages/Account";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           <Route path="/posts" element={<Posts />} />
           <Route path="/events" element={<Events />} />
           <Route path="/schedule" element={<Schedule />} />
+          <Route path="/account" element={<Account />} />
           <Route path="/test" element={<TestPage />} />
         </Route>
         <Route element={<Layout disableNavbar />}>

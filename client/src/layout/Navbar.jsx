@@ -1,7 +1,10 @@
 import { NavLink } from "react-router";
+import { useAuth } from "../auth/AuthContext";
 import "./navbar.css";
 
 export default function Navbar() {
+  const { token } = useAuth();
+
   return (
     <div id="navbar">
       <div className="pageName">
@@ -18,10 +21,15 @@ export default function Navbar() {
           Schedule
         </NavLink>
         <div className="accountContainer">
-          <NavLink to="/register" className={({ isActive }) => (isActive ? "activeSite" : "")}>
-            Login / Sign Up
-          </NavLink>
-          {/* change to switch to account button when logged in */}
+          {token ? (
+            <NavLink to="/account" className={({ isActive }) => (isActive ? "activeSite" : "")}>
+              Account
+            </NavLink>
+          ) : (
+            <NavLink to="/register" className={({ isActive }) => (isActive ? "activeSite" : "")}>
+              Login / Sign Up
+            </NavLink>
+          )}
         </div>
       </div>
     </div>
