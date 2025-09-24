@@ -1,7 +1,7 @@
 import { createContext, useContext, useState } from "react";
 import { useAuth } from "../auth/AuthContext";
 
-export const API = "localhost:3000";
+export const API = "http://localhost:3000";
 const ApiContext = createContext();
 
 export function ApiProvider({ children }) {
