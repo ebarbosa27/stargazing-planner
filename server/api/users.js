@@ -13,12 +13,12 @@ router.route("/register").post(requireBody(["username", "password"]), async (req
     res.status(201).json({ token: token });
   } catch (err) {
     if (err.code === "23505") {
-      console.log(err.constraint);
       res.status(409).json({
         message: `The username "${req.body.username}" is already taken.`,
       });
+    } else {
+      res.status(500).json(err);
     }
-    res.status(500).json(err);
   }
 });
 
