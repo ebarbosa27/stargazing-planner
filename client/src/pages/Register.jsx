@@ -20,6 +20,7 @@ export default function Register() {
       await register({ email, username, password });
       navigate("/");
     } catch (err) {
+      console.error(err);
       setError(err.message);
     }
   }

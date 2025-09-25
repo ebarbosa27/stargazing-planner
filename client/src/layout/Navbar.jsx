@@ -26,9 +26,15 @@ export default function Navbar() {
               Account
             </NavLink>
           ) : (
-            <NavLink to="/register" className={({ isActive }) => (isActive ? "activeSite" : "")}>
-              Login / Sign Up
-            </NavLink>
+            <>
+              <NavLink to="/login" className={({ isActive }) => (isActive ? "activeSite" : "")}>
+                Login
+              </NavLink>
+              {"/"}
+              <NavLink to="/register" className={({ isActive }) => (isActive ? "activeSite" : "")}>
+                Sign Up
+              </NavLink>
+            </>
           )}
         </div>
       </div>
