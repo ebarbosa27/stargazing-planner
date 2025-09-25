@@ -18,6 +18,7 @@ async function seed() {
     const userData = {
       username: faker.internet.username(),
       password: faker.internet.password(),
+      email: faker.internet.email(),
     };
     await createUser(userData);
   }

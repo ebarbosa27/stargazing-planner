@@ -6,7 +6,7 @@ import requireBody from "../middleware/requireBody.js";
 import { createUser, getUserByUsernamePassword } from "../db/queries/users.js";
 import { createToken } from "../utils/jwt.js";
 
-router.route("/register").post(requireBody(["username", "password"]), async (req, res) => {
+router.route("/register").post(requireBody(["username", "password", "email"]), async (req, res) => {
   try {
     const user = await createUser(req.body);
     const token = createToken({ id: user.id });

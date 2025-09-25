@@ -30,7 +30,7 @@ export default function Register() {
         <h2>Create Account</h2>
         <label>
           <span>Email</span>
-          <input type="text" name="Email" />
+          <input type="text" name="email" />
         </label>
         <label>
           <span>Username</span>
