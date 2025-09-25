@@ -13,9 +13,16 @@ router.route("/register").post(requireBody(["username", "password", "email"]), a
     res.status(201).json({ token: token });
   } catch (err) {
     if (err.code === "23505") {
-      res.status(409).json({
-        message: `The username "${req.body.username}" is already taken.`,
-      });
+      const constraint = err.constraint.split("_")[1];
+      if (constraint === "email") {
+        res.status(409).json({
+          message: `The email "${req.body.email}" is already in use.`,
+        });
+      } else if (constraint === "username") {
+        res.status(409).json({
+          message: `The username "${req.body.username}" is already taken.`,
+        });
+      }
     } else {
       res.status(500).json(err);
     }
