@@ -11,6 +11,9 @@ export default function Navbar() {
         <NavLink to="/">Star Gazing</NavLink>
       </div>
       <div className="navLinks">
+        <NavLink to="/map" className={({ isActive }) => (isActive ? "activeSite" : "")}>
+          Map
+        </NavLink>
         <NavLink to="/posts" className={({ isActive }) => (isActive ? "activeSite" : "")}>
           Posts
         </NavLink>
