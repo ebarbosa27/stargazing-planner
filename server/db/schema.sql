@@ -15,6 +15,7 @@ CREATE TABLE users(
 
 CREATE TABLE events(
     id serial PRIMARY KEY,
+    name text NOT NULL UNIQUE,
     user_id int NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     date date NOT NULL,
     description text NOT NULL,

@@ -26,6 +26,7 @@ async function seed() {
   // create event created by user
   for (let i = 1; i <= 5; i++) {
     const eventData = {
+      name: faker.word.adjective() + " " + faker.word.noun(),
       date: faker.date.anytime(),
       location: {
         longitude: faker.location.longitude(),
