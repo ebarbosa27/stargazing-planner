@@ -8,6 +8,8 @@ export default function MapComponent() {
   const apiIsLoaded = useApiIsLoaded();
 
   useEffect(() => {
+    if (!apiIsLoaded) return;
+
     navigator.geolocation.getCurrentPosition(
       (position) => {
         setUserPosition({
@@ -18,10 +20,13 @@ export default function MapComponent() {
           lat: position.coords.latitude,
           lng: position.coords.longitude,
         });
+
+        setTimeout(() => setUserPosition(null), 1000);
       },
       (error) => {
         console.error("Error getting geolocation:", error);
-      }
+      },
+      { enableHighAccuracy: true } // Optional options
     );
   }, [apiIsLoaded]);
 
