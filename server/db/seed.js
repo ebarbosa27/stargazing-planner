@@ -27,7 +27,11 @@ async function seed() {
   for (let i = 1; i <= 5; i++) {
     const eventData = {
       date: faker.date.anytime(),
-      location: { longitude: faker.location.longitude(), latitude: faker.location.latitude() },
+      location: {
+        longitude: faker.location.longitude(),
+        latitude: faker.location.latitude(),
+      },
+      description: faker.lorem.lines({ min: 1, max: 3 }),
       userId: i,
     };
     await createEvent(eventData);

@@ -15,9 +15,11 @@ CREATE TABLE users(
 
 CREATE TABLE events(
     id serial PRIMARY KEY,
+    user_id int NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     date date NOT NULL,
+    description text NOT NULL,
     location GEOGRAPHY(Point, 4326),
-    user_id int NOT NULL REFERENCES users(id) ON DELETE CASCADE
+    created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
 CREATE TABLE hotspots(
