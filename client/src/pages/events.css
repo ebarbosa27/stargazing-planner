@@ -10,22 +10,24 @@
   padding: 1rem 2rem;
 
   display: flex;
-  gap: 1rem;
   align-items: center;
+  gap: 1rem;
 }
 
 #eventsPage ol li .listImageContainer {
   width: 200px;
   height: 200px;
-  /* aspect-ratio: 1; */
-
-  border: solid 1px red;
-  justify-content: center;
 }
 
 #eventsPage ol li .listImageContainer img {
   width: 100%;
   height: 100%;
+
+  object-fit: cover;
+  overflow: hidden;
+
+  border: 1px rgb(59, 59, 59) solid;
+  border-radius: 10px;
 }
 
 #eventsPage ol li h3 {
@@ -33,5 +35,6 @@
   text-transform: uppercase;
 }
 
-#eventsPage ol li .listContentContainer .listContent {
+#eventsPage ol li .listContentContainer {
+  flex: 1;
 }

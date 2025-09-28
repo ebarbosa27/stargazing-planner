@@ -1,6 +1,5 @@
 import { useEffect } from "react";
 import useQuery from "../api/useQuery";
-import { faker } from "@faker-js/faker";
 import "./events.css";
 
 export default function Events() {
@@ -11,8 +10,6 @@ export default function Events() {
   if (loading) return <div>Loading . . . </div>;
 
   if (error) return <div>ERROR</div>;
-
-  data?.events && console.log(data.events[0]);
 
   return (
     <div id="eventsPage">
@@ -25,7 +22,7 @@ export default function Events() {
               return (
                 <li key={event.id}>
                   <div className="listImageContainer">
-                    <img src={faker.image.url()} alt="randomImage" />
+                    <img src={event.image_urls[0]} alt="View of Location" />
                   </div>
                   <div className="listContentContainer">
                     <h3>{event.name}</h3>

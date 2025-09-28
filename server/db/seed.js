@@ -34,6 +34,11 @@ async function seed() {
       },
       description: faker.lorem.lines({ min: 1, max: 3 }),
       userId: i,
+      imageUrls: [
+        faker.image.urlPicsumPhotos(),
+        faker.image.urlPicsumPhotos(),
+        faker.image.urlPicsumPhotos(),
+      ],
     };
     await createEvent(eventData);
   }

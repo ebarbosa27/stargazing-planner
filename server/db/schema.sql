@@ -20,6 +20,7 @@ CREATE TABLE events(
     date date NOT NULL,
     description text NOT NULL,
     location GEOGRAPHY(Point, 4326),
+    image_urls text[],
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 

@@ -1,16 +1,24 @@
 import db from "../client.js";
 
-export async function createEvent({ name, date, location, userId, description }) {
+export async function createEvent({ name, date, location, userId, description, imageUrls }) {
   const sql = `
   INSERT INTO events 
-    (name, date, user_id, description, location)
+    (name, date, user_id, description, location, image_urls)
   VALUES
-    ($1, $2, $3, $4, ST_SetSRID(ST_MakePoint($5, $6), 4326))
+    ($1, $2, $3, $4, ST_SetSRID(ST_MakePoint($5, $6), 4326), $7)
   RETURNING *
 `;
   const {
     rows: [event],
-  } = await db.query(sql, [name, date, userId, description, location.longitude, location.latitude]);
+  } = await db.query(sql, [
+    name,
+    date,
+    userId,
+    description,
+    location.longitude,
+    location.latitude,
+    imageUrls,
+  ]);
   return event;
 }
 
