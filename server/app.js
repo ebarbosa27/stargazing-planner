@@ -3,7 +3,7 @@ const app = express();
 export default app;
 
 import cors from "cors";
-app.use(cors({ origin: "http://localhost:5173" }));
+app.use(cors());
 import getUserFromToken from "./middleware/getUserFromToken.js";
 
 import usersRouter from "./api/users.js";
