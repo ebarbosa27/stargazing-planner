@@ -24,6 +24,7 @@ export async function getUserByUsernamePassword({ username, password }) {
 
   const validPassword = await bcrypt.compare(password, user.password);
   if (!validPassword) return null;
+  delete user.password;
 
   return user;
 }
@@ -33,5 +34,6 @@ export async function getUserById({ id }) {
   const {
     rows: [user],
   } = await db.query(sql, [id]);
+  delete user.password;
   return user;
 }

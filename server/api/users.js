@@ -5,6 +5,15 @@ export default router;
 import requireBody from "../middleware/requireBody.js";
 import { createUser, getUserByUsernamePassword } from "../db/queries/users.js";
 import { createToken } from "../utils/jwt.js";
+import requireUser from "../middleware/requireUser.js";
+
+router.route("/").get(requireUser, async (req, res) => {
+  try {
+    res.status(200).json(req.user);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
 
 router.route("/register").post(requireBody(["username", "password", "email"]), async (req, res) => {
   try {
