@@ -14,7 +14,7 @@ console.log("Database seeded.");
 async function seed() {
   // create user
 
-  for (let i = 0; i < 15; i++) {
+  for (let i = 0; i < 20; i++) {
     const userData = {
       username: faker.internet.username(),
       password: faker.internet.password(),
@@ -24,7 +24,7 @@ async function seed() {
   }
 
   // create event created by user
-  for (let i = 1; i <= 5; i++) {
+  for (let i = 1; i <= 20; i++) {
     const eventData = {
       name: faker.word.adjective() + " " + faker.word.noun(),
       date: faker.date.anytime(),
@@ -44,7 +44,7 @@ async function seed() {
   }
 
   // create hotspot created by user
-  for (let i = 4; i <= 8; i++) {
+  for (let i = 1; i <= 10; i++) {
     const hotspotData = {
       location: { longitude: faker.location.longitude(), latitude: faker.location.latitude() },
       userId: i,
@@ -53,8 +53,8 @@ async function seed() {
   }
 
   // create rsvp for event and is linked to user that is rsvp'ing
-  for (let i = 6; i <= 15; i++) {
-    const randomEventId = Math.ceil(Math.random() * 5);
+  for (let i = 6; i <= 20; i++) {
+    const randomEventId = Math.ceil(Math.random() * 20);
     const randomStatus = Math.random() < 0.5 ? "attending" : "interested";
 
     const rsvpData = {
@@ -76,7 +76,7 @@ async function seed() {
 
   // create favorite for event created by user
   for (let i = 6; i <= 15; i++) {
-    const randomEventId = Math.ceil(Math.random() * 5);
+    const randomEventId = Math.ceil(Math.random() * 20);
 
     const favoriteDate = {
       userId: i,
