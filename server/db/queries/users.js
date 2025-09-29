@@ -82,7 +82,7 @@ export async function getAllUserData({ id }) {
       WHERE 
         r.user_id = u.id
     ) e
-  ) AS rsvp_events,
+  ) AS rsvpEvents,
 
   (
     SELECT 
@@ -97,7 +97,7 @@ export async function getAllUserData({ id }) {
       WHERE 
         f.user_id = u.id
     ) e
-  ) AS favorite_events
+  ) AS favoriteEvents
   FROM 
     users u
   WHERE 
