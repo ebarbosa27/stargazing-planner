@@ -1,4 +1,4 @@
-#accountPage {
+#authPage {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -7,13 +7,13 @@
   justify-content: center;
 }
 
-#accountPage h2 {
+#authPage h2 {
   align-self: start;
   margin: 0;
   text-transform: uppercase;
 }
 
-#accountPage form {
+#authPage form {
   width: 100%;
   max-width: 600px;
   background-color: #1f2833;
@@ -25,35 +25,35 @@
   align-items: center;
 }
 
-#accountPage form label {
+#authPage form label {
   display: flex;
   flex-direction: column;
   width: 92%;
 }
 
-#accountPage form label span {
+#authPage form label span {
   font-size: 18px;
 }
 
-#accountPage form label input {
+#authPage form label input {
   margin: 0.5rem 0;
   padding: 0.25rem;
   font-size: 16px;
 }
 
-#accountPage form button {
+#authPage form button {
   font-size: 20px;
   width: fit-content;
   padding: 0.5rem 1rem;
   align-self: center;
 }
 
-#accountPage form a {
+#authPage form a {
   color: white;
   align-self: center;
 }
 
-#accountPage form output {
+#authPage form output {
   color: rgb(255, 114, 114);
   align-self: center;
 }

@@ -1,9 +1,16 @@
 export default function EventCatalogue({ events, componentName }) {
   return (
-    <ul>
+    <ul className="catalogueRow">
       {events
         ? events.map((event) => {
-            return <li key={event.id}></li>;
+            return (
+              <li key={event.id}>
+                <div className="imageContainer">
+                  <img src={event.image_urls[0]} alt="Event" />
+                </div>
+                <p>{event.name}</p>
+              </li>
+            );
           })
         : `No ${componentName} events found`}
     </ul>

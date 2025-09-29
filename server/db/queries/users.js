@@ -74,7 +74,7 @@ export async function getAllUserData({ id }) {
       json_agg(e)
     FROM (
       SELECT 
-        e.id, e.name, e.date
+        e.*
       FROM 
         rsvps r
       JOIN 
@@ -82,14 +82,14 @@ export async function getAllUserData({ id }) {
       WHERE 
         r.user_id = u.id
     ) e
-  ) AS rsvpEvents,
+  ) AS rsvp_events,
 
   (
     SELECT 
       json_agg(e)
     FROM (
       SELECT 
-        e.id, e.name, e.date
+        e.*
       FROM 
         favorites f
       JOIN 
@@ -97,7 +97,7 @@ export async function getAllUserData({ id }) {
       WHERE 
         f.user_id = u.id
     ) e
-  ) AS favoriteEvents
+  ) AS favorite_events
   FROM 
     users u
   WHERE 
@@ -107,7 +107,5 @@ export async function getAllUserData({ id }) {
   const {
     rows: [userData],
   } = await db.query(sql, [id]);
-  console.log(id);
-  console.log(userData);
   return userData;
 }

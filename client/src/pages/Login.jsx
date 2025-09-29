@@ -24,7 +24,7 @@ export default function Login() {
   }
 
   return (
-    <div id="accountPage">
+    <div id="authPage">
       <form action={handleLogin}>
         <h2>Login</h2>
         <label>

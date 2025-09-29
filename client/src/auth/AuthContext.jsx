@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useContext, useState } from "react";
 import { API } from "../api/ApiContext";
 import Cookies from "js-cookie";
 
@@ -6,10 +6,6 @@ const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
   const [token, setToken] = useState(Cookies.get("userToken") || null);
-
-  useEffect(() => {
-    console.log(token);
-  }, [token]);
 
   async function register({ email, username, password }) {
     const response = await fetch(API + "/users/register", {

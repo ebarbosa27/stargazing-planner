@@ -25,7 +25,7 @@ export default function Register() {
   }
 
   return (
-    <div id="accountPage">
+    <div id="authPage">
       <form action={handleRegister}>
         <h2>Create Account</h2>
         <label>
