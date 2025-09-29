@@ -3,7 +3,15 @@ const router = express.Router();
 export default router;
 
 import requireBody from "../middleware/requireBody.js";
-import { createUser, getUserByUsernamePassword } from "../db/queries/users.js";
+import {
+  createUser,
+  getAllUserData,
+  getUserByUsernamePassword,
+  getUserEvents,
+  getUserFavorites,
+  getUserHotspots,
+  getUserRSVPs,
+} from "../db/queries/users.js";
 import { createToken } from "../utils/jwt.js";
 import requireUser from "../middleware/requireUser.js";
 
@@ -45,6 +53,55 @@ router.route("/login").post(requireBody(["username", "password"]), async (req, r
 
     const token = createToken({ id: user.id });
     res.status(200).json({ token: token });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+router.use(requireUser);
+
+router.route("/accountPage").get(async (req, res) => {
+  try {
+    const user = req.user;
+    const fullUserData = await getAllUserData({ id: user.id });
+    res.status(200).json(fullUserData);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+router.route("/events").get(async (req, res) => {
+  try {
+    const events = await getUserEvents({ userId: req.user.id });
+    if (!events) res.status(404).json({ message: "No data found" });
+    res.status(200).json({ events });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+router.route("/rsvps").get(async (req, res) => {
+  try {
+    const rsvps = await getUserRSVPs({ userId: req.user.id });
+    if (!rsvps) res.status(404).json({ message: "No data found" });
+    res.status(200).json({ rsvps });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+router.route("/hotspots").get(async (req, res) => {
+  try {
+    const hotspot = await getUserHotspots({ userId: req.user.id });
+    if (!hotspot) res.status(404).json({ message: "No data found" });
+    res.status(200).json({ hotspot });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+router.route("/favorites").get(async (req, res) => {
+  try {
+    const favorites = await getUserFavorites({ userId: req.user.id });
+    if (!favorites) res.status(404).json({ message: "No data found" });
+    res.status(200).json({ favorites });
   } catch (err) {
     res.status(500).json(err);
   }

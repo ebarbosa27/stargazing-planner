@@ -37,3 +37,77 @@ export async function getUserById({ id }) {
   delete user.password;
   return user;
 }
+
+export async function getUserEvents({ userId }) {
+  const sql = `SELECT * FROM events WHERE user_id = $1`;
+  const { rows: events } = await db.query(sql, [userId]);
+  return events;
+}
+
+export async function getUserRSVPs({ userId }) {
+  const sql = `SELECT * FROM rsvps WHERE user_id = $1`;
+  const { rows: rsvps } = await db.query(sql, [userId]);
+  return rsvps;
+}
+
+export async function getUserHotspots({ userId }) {
+  const sql = `SELECT * FROM hotspots WHERE user_id = $1`;
+  const { rows: hotspots } = await db.query(sql, [userId]);
+  return hotspots;
+}
+
+export async function getUserFavorites({ userId }) {
+  const sql = `SELECT * FROM favorites WHERE user_id = $1`;
+  const { rows: favorites } = await db.query(sql, [userId]);
+  return favorites;
+}
+
+export async function getAllUserData({ id }) {
+  const sql = `
+  SELECT
+  u.id,
+  u.username,
+  u.email,
+  
+  (
+    SELECT 
+      json_agg(e)
+    FROM (
+      SELECT 
+        e.id, e.name, e.date
+      FROM 
+        rsvps r
+      JOIN 
+        events e ON e.id = r.event_id
+      WHERE 
+        r.user_id = u.id
+    ) e
+  ) AS rsvp_events,
+
+  (
+    SELECT 
+      json_agg(e)
+    FROM (
+      SELECT 
+        e.id, e.name, e.date
+      FROM 
+        favorites f
+      JOIN 
+        events e ON e.id = f.event_id
+      WHERE 
+        f.user_id = u.id
+    ) e
+  ) AS favorite_events
+  FROM 
+    users u
+  WHERE 
+    u.id = $1;
+
+  `;
+  const {
+    rows: [userData],
+  } = await db.query(sql, [id]);
+  console.log(id);
+  console.log(userData);
+  return userData;
+}
