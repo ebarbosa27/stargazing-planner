@@ -6,6 +6,8 @@
   border: solid #1f2833;
   border-radius: 1rem;
   background-color: #1f2833;
+  height: 5rem;
+  overflow: hidden;
 }
 
 .pageName a {
@@ -13,12 +15,28 @@
   font-size: 20px;
   color: #ffffff;
   text-decoration: none;
+  text-wrap: nowrap;
+  margin-right: 1rem;
 }
 
 .navLinks {
   height: 100%;
   display: flex;
-  gap: 2rem;
+  align-items: center;
+}
+
+.navPages {
+  border-right: solid #ffffff 0.1rem;
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  padding-right: 1rem;
+}
+
+@media (max-width: 700px) {
+  .navPages {
+    display: none;
+  }
 }
 
 .navLinks a {
@@ -34,8 +52,10 @@
 
 .accountContainer {
   height: 100%;
-  border-left: solid #ffffff 0.1rem;
   padding-left: 1rem;
+
+  display: flex;
+  align-items: center;
 }
 
 .accountContainer a {
@@ -43,8 +63,31 @@
   text-decoration: none;
   font-weight: normal;
   padding: 0.5rem;
+  text-wrap: nowrap;
+}
+
+.accountContainer span {
+  font-size: "20px";
+  margin: 0 0.5rem;
 }
 
 .activeSite {
   text-decoration: underline !important;
+}
+
+#navbar .accountContainer button {
+  background-color: transparent;
+  color: white;
+
+  font-size: 16px;
+  margin: 0 1rem;
+  padding: 0 1rem;
+
+  border: 1px white solid;
+  border-radius: 0.4rem;
+}
+
+#navbar .accountContainer button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+  cursor: pointer;
 }

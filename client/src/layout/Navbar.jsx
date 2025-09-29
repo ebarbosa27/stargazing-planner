@@ -12,18 +12,21 @@ export default function Navbar() {
         <NavLink to="/">Star Gazing</NavLink>
       </div>
       <div className="navLinks">
-        <NavLink to="/posts" className={({ isActive }) => (isActive ? "activeSite" : "")}>
-          Posts
-        </NavLink>
-        <NavLink to="/events" className={({ isActive }) => (isActive ? "activeSite" : "")}>
-          Events
-        </NavLink>
-        <NavLink to="/schedule" className={({ isActive }) => (isActive ? "activeSite" : "")}>
-          Schedule
-        </NavLink>
-        <NavLink to="/map" className={({ isActive }) => (isActive ? "activeSite" : "")}>
-          Map
-        </NavLink>
+        <div className="navPages">
+          <NavLink to="/posts" className={({ isActive }) => (isActive ? "activeSite" : "")}>
+            Posts
+          </NavLink>
+          <NavLink to="/events" className={({ isActive }) => (isActive ? "activeSite" : "")}>
+            Events
+          </NavLink>
+          <NavLink to="/schedule" className={({ isActive }) => (isActive ? "activeSite" : "")}>
+            Schedule
+          </NavLink>
+          <NavLink to="/map" className={({ isActive }) => (isActive ? "activeSite" : "")}>
+            Map
+          </NavLink>
+        </div>
+
         <div className="accountContainer">
           {token ? (
             <>
@@ -45,7 +48,7 @@ export default function Navbar() {
               <NavLink to="/login" className={({ isActive }) => (isActive ? "activeSite" : "")}>
                 Login
               </NavLink>
-              {"/"}
+              <span>{"/"}</span>
               <NavLink to="/register" className={({ isActive }) => (isActive ? "activeSite" : "")}>
                 Sign Up
               </NavLink>
