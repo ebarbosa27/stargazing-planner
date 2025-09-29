@@ -74,7 +74,8 @@ export async function getAllUserData({ id }) {
       json_agg(e)
     FROM (
       SELECT 
-        e.*
+        e.*,
+        concat(ST_X(location::geometry), ', ', ST_Y(location::geometry)) AS coordinates
       FROM 
         rsvps r
       JOIN 
@@ -89,7 +90,8 @@ export async function getAllUserData({ id }) {
       json_agg(e)
     FROM (
       SELECT 
-        e.*
+        e.*,
+        concat(ST_X(location::geometry), ', ', ST_Y(location::geometry)) AS coordinates
       FROM 
         favorites f
       JOIN 
