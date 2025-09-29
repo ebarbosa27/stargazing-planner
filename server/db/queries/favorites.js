@@ -13,3 +13,16 @@ export async function createFavorite({ userId, eventId }) {
   } = await db.query(sql, [userId, eventId]);
   return favorite;
 }
+
+export async function deleteFavorite({ userId, eventId }) {
+  const sql = `
+  DELETE FROM favorites
+  WHERE 
+    user_id = $1 AND event_id = $2
+  RETURNING *
+  `;
+  const {
+    rows: [favorite],
+  } = await db.query(sql, [userId, eventId]);
+  return favorite;
+}
