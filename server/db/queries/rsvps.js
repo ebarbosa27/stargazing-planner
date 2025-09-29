@@ -13,3 +13,16 @@ export async function createRSVP({ userId, eventId, status }) {
   } = await db.query(sql, [userId, eventId, status]);
   return rsvp;
 }
+
+export async function deleteRSVP({ userId, eventId }) {
+  const sql = `
+  DELETE FROM rsvps
+  WHERE 
+    user_id = $1 AND event_id = $2
+  RETURNING *
+  `;
+  const {
+    rows: [rsvp],
+  } = await db.query(sql, [userId, eventId]);
+  return rsvp;
+}
