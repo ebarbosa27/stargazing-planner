@@ -1,10 +1,16 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { API } from "../api/ApiContext";
+import Cookies from "js-cookie";
 
 const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-  const [token, setToken] = useState(null);
+  const [token, setToken] = useState(Cookies.get("userToken") || null);
+
+  useEffect(() => {
+    console.log(token);
+  }, [token]);
+
   async function register({ email, username, password }) {
     const response = await fetch(API + "/users/register", {
       method: "POST",
@@ -18,6 +24,7 @@ export function AuthProvider({ children }) {
     if (!response.ok) throw result;
 
     setToken(result.token);
+    Cookies.set("userToken", result.token, { expires: 5 });
   }
 
   async function login({ username, password }) {
@@ -31,10 +38,12 @@ export function AuthProvider({ children }) {
     const result = await response.json();
     if (!response.ok) throw result;
     setToken(result.token);
+    Cookies.set("userToken", result.token, { expires: 5 });
   }
 
   function logout() {
     setToken(null);
+    Cookies.remove("userToken");
   }
 
   return (
