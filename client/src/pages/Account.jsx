@@ -1,4 +1,5 @@
 import useQuery from "../api/useQuery";
+import EventCatalogue from "../layout/EventCatalogue";
 
 export default function Account() {
   const { data, loading, error } = useQuery("/users/accountPage", "accountPage");
@@ -21,27 +22,11 @@ export default function Account() {
             <p>Hello {data.username}!</p>
             <div>
               <h3>RSVPs</h3>
-              {data.rsvp_events ? (
-                <ul>
-                  {data.rsvpEvents.map((event) => {
-                    return <li key={event.id}>{event.name}</li>;
-                  })}
-                </ul>
-              ) : (
-                "No events rsvp'd"
-              )}
+              <EventCatalogue events={data.rsvpEvents} componentName="rsvp" />
             </div>
             <div>
               <h3>Favorites</h3>
-              {data.rsvp_events ? (
-                <ul>
-                  {data.favoriteEvents.map((event) => {
-                    return <li key={event.id}>{event.name}</li>;
-                  })}
-                </ul>
-              ) : (
-                "No events favorited"
-              )}
+              <EventCatalogue events={data.favoriteEvents} componentName="favorite" />
             </div>
           </div>
         ) : (
