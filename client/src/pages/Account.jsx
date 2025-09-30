@@ -1,5 +1,5 @@
 import useQuery from "../api/useQuery";
-import EventCatalogue from "../layout/EventCatalogue";
+import EventCatalogue from "../components/EventCatalogue";
 import "./account.css";
 
 export default function Account() {

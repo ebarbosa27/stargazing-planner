@@ -1,10 +1,10 @@
 import { useParams } from "react-router";
 import useQuery from "../api/useQuery";
-import GalleryCatalogue from "../layout/GalleryCatalogue";
+import GalleryCatalogue from "../components/GalleryCatalogue";
 import "./eventItem.css";
-import FavoriteAction from "../layout/FavoriteAction";
+import FavoriteAction from "../components/FavoriteAction";
 import { useAuth } from "../auth/AuthContext";
-import RsvpAction from "../layout/RsvpAction";
+import RsvpAction from "../components/RsvpAction";
 
 export default function EventItem() {
   const { eventId } = useParams();
@@ -25,7 +25,7 @@ export default function EventItem() {
       <p>{data.description}</p>
       <GalleryCatalogue data={data} />
       {userToken ? (
-        <div>
+        <div className="eventActionContainer">
           <FavoriteAction eventId={eventId} />
           <RsvpAction eventId={eventId} />
         </div>

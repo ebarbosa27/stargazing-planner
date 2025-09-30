@@ -33,3 +33,13 @@
   scroll-snap-align: start;
   flex: none;
 }
+
+#eventItemPage .eventActionContainer {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+#eventItemPage .eventActionContainer button {
+  width: 10rem;
+}

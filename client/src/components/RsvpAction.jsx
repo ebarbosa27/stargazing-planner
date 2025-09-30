@@ -17,7 +17,7 @@ export default function RsvpAction({ eventId }) {
   if (rsvpEvent.exists) {
     if (rsvpEvent.status === "attending") {
       return (
-        <>
+        <div>
           <button
             id="attendingBtn"
             onClick={() => {
@@ -35,11 +35,11 @@ export default function RsvpAction({ eventId }) {
           >
             Switch to Interest
           </button>
-        </>
+        </div>
       );
     } else {
       return (
-        <>
+        <div>
           <button
             id="attendingBtn"
             onClick={() => {
@@ -56,12 +56,12 @@ export default function RsvpAction({ eventId }) {
           >
             Not interested
           </button>
-        </>
+        </div>
       );
     }
   } else {
     return (
-      <>
+      <div>
         <button
           id="attendingBtn"
           onClick={() => {
@@ -78,7 +78,7 @@ export default function RsvpAction({ eventId }) {
         >
           Interested
         </button>
-      </>
+      </div>
     );
   }
 }
