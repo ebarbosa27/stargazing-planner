@@ -6,6 +6,7 @@ import { getAllEvents, getEventById } from "../db/queries/events.js";
 import requireUser from "../middleware/requireUser.js";
 import requireBody from "../middleware/requireBody.js";
 import { createFavorite, deleteFavorite, getFavorite } from "../db/queries/favorites.js";
+import { createRsvp, deleteRsvp, getRsvp, patchRsvp } from "../db/queries/rsvps.js";
 
 router.route("/").get(async (req, res) => {
   try {
@@ -73,12 +74,14 @@ router.route("/favorite/:eventId").get(async (req, res) => {
 
 router
   .route("/rsvp")
-  .post(requireBody(["eventId"]), async (req, res) => {
+  .post(requireBody(["eventId", "status"]), async (req, res) => {
     try {
       const userId = req.user.id;
       const eventId = req.body.eventId;
+      const rsvpStatus = req.body.status;
+      const rsvpEvent = await createRsvp({ userId, eventId, rsvpStatus });
 
-      res.status(200).json({});
+      res.status(200).json(rsvpEvent);
     } catch (err) {
       res.status(500).json(err);
     }
@@ -87,9 +90,25 @@ router
     try {
       const userId = req.user.id;
       const eventId = req.body.eventId;
+      const rsvpEvent = await deleteRsvp({ userId, eventId });
+      if (!rsvpEvent) return res.status(404).json({ message: "RSVP not found" });
 
-      res.status(200).json({});
+      res.status(200).json(rsvpEvent);
     } catch (err) {
+      res.status(500).json(err);
+    }
+  })
+  .patch(requireBody(["eventId", "status"]), async (req, res) => {
+    try {
+      const userId = req.user.id;
+      const eventId = req.body.eventId;
+      const rsvpStatus = req.body.status;
+      const rsvpEvent = await patchRsvp({ userId, eventId, rsvpStatus });
+      if (!rsvpEvent) return res.status(404).json({ message: "RSVP not found" });
+
+      res.status(200).json(rsvpEvent);
+    } catch (err) {
+      console.log(err);
       res.status(500).json(err);
     }
   });
@@ -98,11 +117,10 @@ router.route("/rsvp/:eventId").get(async (req, res) => {
   try {
     const userId = req.user.id;
     const { eventId } = req.params;
-    const favoriteEvent = await getRsvp({ userId, eventId });
-    if (!favoriteEvent)
-      return res.status(200).json({ message: "Favorite does not exists", exists: false });
+    const rsvpEvent = await getRsvp({ userId, eventId });
+    if (!rsvpEvent) return res.status(200).json({ message: "RSVP does not exists", exists: false });
 
-    res.status(200).json({ message: "Favorite does not exists", exists: true });
+    res.status(200).json({ message: "RSVP does exists", exists: true, status: rsvpEvent.status });
   } catch (err) {
     res.status(500).json(err);
   }

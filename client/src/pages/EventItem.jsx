@@ -4,6 +4,7 @@ import GalleryCatalogue from "../layout/GalleryCatalogue";
 import "./eventItem.css";
 import FavoriteAction from "../layout/FavoriteAction";
 import { useAuth } from "../auth/AuthContext";
+import RsvpAction from "../layout/RsvpAction";
 
 export default function EventItem() {
   const { eventId } = useParams();
@@ -26,6 +27,7 @@ export default function EventItem() {
       {userToken ? (
         <div>
           <FavoriteAction eventId={eventId} />
+          <RsvpAction eventId={eventId} />
         </div>
       ) : (
         ""
