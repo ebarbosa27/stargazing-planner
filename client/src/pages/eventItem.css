@@ -1,0 +1,35 @@
+#eventItemPage {
+  width: 100%;
+}
+
+#eventItemPage ul {
+  list-style: none;
+  /* display: flex; */
+  gap: 0;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  scrollbar-width: none;
+
+  padding: 0;
+  padding-bottom: -10px;
+  border-radius: 0.2rem;
+
+  scroll-snap-type: x mandatory;
+}
+
+#eventItemPage li {
+  display: inline-block;
+  width: 400px;
+  aspect-ratio: 1;
+  padding: 0;
+}
+
+#eventItemPage img {
+  height: 400px;
+  aspect-ratio: 1;
+
+  scroll-snap-align: start;
+  flex: none;
+}

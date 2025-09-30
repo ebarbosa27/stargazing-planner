@@ -3,7 +3,6 @@ export default function EventCatalogue({ events, componentName }) {
     <ul className="catalogueRow">
       {events
         ? events.map((event) => {
-            console.log(event);
             return (
               <li key={event.id}>
                 <div className="imageContainer">

@@ -29,9 +29,24 @@ export async function getAllEvents() {
     concat(ST_X(location::geometry), ', ', ST_Y(location::geometry)) AS coordinates 
   FROM 
     events
-  ORDER BY
+  ORDER BY  
     created_at DESC
   `;
   const { rows: events } = await db.query(sql);
   return events;
+}
+export async function getEventById({ id }) {
+  const sql = `
+  SELECT 
+    *, 
+    concat(ST_X(location::geometry), ', ', ST_Y(location::geometry)) AS coordinates  
+  FROM
+    events
+  WHERE 
+    id = $1
+  `;
+  const {
+    rows: [event],
+  } = await db.query(sql, [id]);
+  return event;
 }
