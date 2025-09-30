@@ -44,7 +44,7 @@ export async function getUserEvents({ userId }) {
   return events;
 }
 
-export async function getUserRSVPs({ userId }) {
+export async function getUserRsvps({ userId }) {
   const sql = `SELECT * FROM rsvps WHERE user_id = $1`;
   const { rows: rsvps } = await db.query(sql, [userId]);
   return rsvps;

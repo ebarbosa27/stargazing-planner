@@ -10,12 +10,12 @@ import {
   getUserEvents,
   getUserFavorites,
   getUserHotspots,
-  getUserRSVPs,
+  getUserRsvps,
 } from "../db/queries/users.js";
 import { createToken } from "../utils/jwt.js";
 import requireUser from "../middleware/requireUser.js";
 import { createFavorite, deleteFavorite } from "../db/queries/favorites.js";
-import { createRSVP, deleteRSVP } from "../db/queries/rsvps.js";
+import { createRsvp, deleteRsvp } from "../db/queries/rsvps.js";
 
 router.route("/").get(requireUser, async (req, res) => {
   try {
@@ -86,7 +86,7 @@ router
   .route("/rsvps")
   .get(async (req, res) => {
     try {
-      const rsvps = await getUserRSVPs({ userId: req.user.id });
+      const rsvps = await getUserRsvps({ userId: req.user.id });
       if (!rsvps) return res.status(404).json({ message: "No data found" });
       res.status(200).json({ rsvps });
     } catch (err) {
@@ -96,7 +96,7 @@ router
   .post(requireBody(["eventId", "status"]), async (req, res) => {
     try {
       const user = req.user;
-      const rsvpEvent = await createRSVP({ ...req.body, userId: user.id });
+      const rsvpEvent = await createRsvp({ ...req.body, userId: user.id });
       if (!rsvpEvent) return res.status(404).json({ message: "event failed to favorite" });
 
       res.status(200).json({ message: "Event rsvp successfully" });
@@ -112,8 +112,8 @@ router
   .delete(requireBody(["eventId"]), async (req, res) => {
     try {
       const user = req.user;
-      const removedRSVP = await deleteRSVP({ userId: user.id, eventId: req.body.eventId });
-      if (!removedRSVP) return res.status(404).json({ message: "Event is not RSVP'd" });
+      const removedRsvp = await deleteRsvp({ userId: user.id, eventId: req.body.eventId });
+      if (!removedRsvp) return res.status(404).json({ message: "Event is not Rsvp'd" });
 
       res.status(200).json({ message: "RSVP removed successfully" });
     } catch (err) {

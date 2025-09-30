@@ -3,7 +3,7 @@ import { faker } from "@faker-js/faker";
 import { createUser } from "./queries/users.js";
 import { createEvent } from "./queries/events.js";
 import { createHotspot } from "./queries/hotspots.js";
-import { createRSVP } from "./queries/rsvps.js";
+import { createRsvp } from "./queries/rsvps.js";
 import { createFavorite } from "./queries/favorites.js";
 
 await db.connect();
@@ -61,7 +61,7 @@ async function seed() {
       status: randomStatus,
     };
     try {
-      await createRSVP(rsvpData);
+      await createRsvp(rsvpData);
     } catch (err) {
       if (err.code == "23505") {
         continue;
