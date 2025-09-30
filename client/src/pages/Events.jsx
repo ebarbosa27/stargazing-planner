@@ -1,11 +1,11 @@
-import { useEffect } from "react";
 import useQuery from "../api/useQuery";
+import { useNavigate } from "react-router";
 import "./events.css";
 
 export default function Events() {
   const { data, loading, error } = useQuery("/events", "events");
 
-  useEffect(() => {}, []);
+  const navigate = useNavigate();
 
   if (loading) return <div>Loading . . . </div>;
 
@@ -18,9 +18,9 @@ export default function Events() {
         {data?.events
           ? data.events.map((event) => {
               const eventDate = new Date(event.date);
-              const createdDate = new Date(event.created_at);
+              // const createdDate = new Date(event.created_at);
               return (
-                <li key={event.id}>
+                <li key={event.id} onClick={() => navigate(`/events/${event.id}`)}>
                   <div className="listImageContainer">
                     <img src={event.image_urls[0]} alt="View of Location" />
                   </div>
@@ -29,8 +29,8 @@ export default function Events() {
                     <div className="listContent">
                       <p>{event.description}</p>
                       <p>[{event.coordinates}]</p>
-                      <p>EVENT DATE: {eventDate.toLocaleString()}</p>
-                      <p>CREATED AT: {createdDate.toLocaleString()}</p>
+                      <p> {eventDate.toLocaleString().split(",")[0]}</p>
+                      {/* <p>CREATED AT: {createdDate.toLocaleString().split(",")[0]}</p> */}
                     </div>
                   </div>
                 </li>
