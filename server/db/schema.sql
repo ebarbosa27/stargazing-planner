@@ -33,7 +33,7 @@ CREATE TABLE hotspots(
 CREATE TABLE rsvps(
     user_id int NOT NULL REFERENCES users(id) ON DELETE CASCADE,
     event_id int NOT NULL REFERENCES events(id) ON DELETE CASCADE,
-    status text NOT NULL,
+    status text NOT NULL CHECK (status IN ('attending', 'interested')),
     PRIMARY KEY (user_id, event_id)
 );
 

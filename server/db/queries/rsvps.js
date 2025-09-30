@@ -8,6 +8,7 @@ export async function createRsvp({ userId, eventId, rsvpStatus }) {
     ($1, $2, $3)
   RETURNING *
   `;
+
   const {
     rows: [rsvp],
   } = await db.query(sql, [userId, eventId, rsvpStatus]);
