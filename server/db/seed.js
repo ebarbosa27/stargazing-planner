@@ -29,8 +29,8 @@ async function seed() {
       name: faker.word.adjective() + " " + faker.word.noun(),
       date: faker.date.anytime(),
       location: {
-        longitude: faker.location.longitude(),
-        latitude: faker.location.latitude(),
+        longitude: faker.location.longitude({ precision: 6 }),
+        latitude: faker.location.latitude({ precision: 6 }),
       },
       description: faker.lorem.lines({ min: 5, max: 10 }),
       userId: i,
@@ -44,7 +44,10 @@ async function seed() {
   // create hotspot created by user
   for (let i = 1; i <= 20; i++) {
     const hotspotData = {
-      location: { longitude: faker.location.longitude(), latitude: faker.location.latitude() },
+      location: {
+        longitude: faker.location.longitude({ precision: 6 }),
+        latitude: faker.location.latitude({ precision: 6 }),
+      },
       userId: i,
     };
     await createHotspot(hotspotData);
@@ -106,8 +109,8 @@ async function seed() {
     name: "View of Mars in Chicago",
     date: customDate,
     location: {
-      longitude: -87.52998847048885,
-      latitude: 41.739648872362714,
+      longitude: -87.529988,
+      latitude: 41.739648,
     },
     description: `
     A view from Chicago's lake side where you are far enough from the city lights that the light pollution is not bad, but still a nice view on the lakefront where you still feel the urban enviornment. It also is away from the tall building that get in the way and can be annoying to deal with. This date mars will pass by as one of the closest time to Earth where the surface is visible with the most lightest telescope. The event will hold multiple telescopes, from galileon telescopes to newtonian to automated dobsodian telescopes.  
