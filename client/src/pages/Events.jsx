@@ -1,43 +1,34 @@
 import useQuery from "../api/useQuery";
-import { useNavigate } from "react-router";
+import useMutation from "../api/useMutation";
 import "./events.css";
 import EventsMapComponent from "../components/EventsMapComponent";
+import EventListings from "../components/EventListings";
 
 export default function Events() {
-  const { data, loading, error } = useQuery("/events", "events");
+  const allEvents = useQuery("/events", "events");
+  const searchEvents = useMutation("POST", "/events/search", ["nearbyEvents"]);
 
-  const navigate = useNavigate();
+  if (allEvents.loading) return <div>Loading . . . </div>;
 
-  if (loading) return <div>Loading . . . </div>;
+  if (allEvents.error) return <div>ERROR</div>;
 
-  if (error) return <div>ERROR</div>;
+  function handleSearchArea(searchBound) {
+    searchEvents.mutate(searchBound);
+  }
 
   return (
     <div id="eventsPage">
       <h2>Events Page</h2>
-      {data?.events && <EventsMapComponent eventsData={data.events} />}
+      {allEvents.data?.events && (
+        <EventsMapComponent
+          refetchData={handleSearchArea}
+          searchEvents={searchEvents.data?.events}
+        />
+      )}
       <ol>
-        {data?.events
-          ? data.events.map((event) => {
-              const eventDate = new Date(event.date);
-              // const createdDate = new Date(event.created_at);
-              return (
-                <li key={event.id} onClick={() => navigate(`/events/${event.id}`)}>
-                  <div className="listImageContainer">
-                    <img src={event.image_urls[0]} alt="View of Location" />
-                  </div>
-                  <div className="listContentContainer">
-                    <h3>{event.name}</h3>
-                    <div className="listContent">
-                      <p>{event.description}</p>
-                      <p> {eventDate.toLocaleString().split(",")[0]}</p>
-                      {/* <p>CREATED AT: {createdDate.toLocaleString().split(",")[0]}</p> */}
-                    </div>
-                  </div>
-                </li>
-              );
-            })
-          : ""}
+        <EventListings
+          events={searchEvents?.data ? searchEvents?.data?.events : allEvents?.data?.events}
+        />
       </ol>
     </div>
   );

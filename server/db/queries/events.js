@@ -31,8 +31,24 @@ export async function getAllEvents() {
     events
   ORDER BY  
     created_at DESC
+  LIMIT 
+    10
   `;
   const { rows: events } = await db.query(sql);
+  return events;
+}
+
+export async function getNearbyEvents({ long1, lat1, long2, lat2 }) {
+  const sql = `
+  SELECT 
+    *,
+    ARRAY[ST_X(location::geometry), ST_Y(location::geometry)] AS coordinates 
+  FROM 
+    events
+  WHERE
+    location && ST_MakeEnvelope($1, $2, $3, $4, 4326)::geography;
+  `;
+  const { rows: events } = await db.query(sql, [long1, lat1, long2, lat2]);
   return events;
 }
 

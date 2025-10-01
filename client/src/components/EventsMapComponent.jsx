@@ -1,14 +1,15 @@
 import { useEffect, useRef, useState } from "react";
-import mapboxgl, { Marker } from "mapbox-gl";
+import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import "./map.css";
 
-export default function EventsMapComponent({ eventsData }) {
+export default function EventsMapComponent({ refetchData, searchEvents }) {
   const mapContainerRef = useRef();
   const mapRef = useRef();
 
   const [center, setCenter] = useState([-98.5556199, 39.8097343]);
   const [zoom, setZoom] = useState(3.5);
+  const [markers] = useState(new Array());
 
   useEffect(() => {
     mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_API_KEY;
@@ -25,10 +26,6 @@ export default function EventsMapComponent({ eventsData }) {
 
       setCenter(mapCenter);
       setZoom(mapZoom);
-
-      if (mapZoom > 10) {
-        // get events nearby
-      }
     });
 
     map.addControl(
@@ -37,24 +34,50 @@ export default function EventsMapComponent({ eventsData }) {
 
     mapRef.current = map;
 
+    if (searchEvents) console.log(searchEvents);
+
     return () => {
       mapRef.current.remove();
     };
   }, []);
 
-  if (eventsData) {
-    // eventsData.forEach((event) => {
-    //   new mapboxgl.Marker({
-    //     color: "#FFFFFF",
-    //   })
-    //     .setLngLat(event.coordinates)
-    //     .addTo(mapRef.current);
-    // });
+  useEffect(() => {
+    if (searchEvents) {
+      searchEvents.forEach((event) => {
+        const marker = new mapboxgl.Marker().setLngLat(event.coordinates).addTo(mapRef.current);
+        markers.push(marker);
+      });
+    }
+  }, [searchEvents]);
+
+  function removeAllMarkers() {
+    markers.filter((marker) => {
+      marker.remove();
+      return false;
+    });
+  }
+
+  function handleSearchAreaBtn() {
+    removeAllMarkers();
+
+    const map = mapRef.current;
+    const bounds = map.getBounds();
+
+    const mark1 = [bounds._sw.lng, bounds._sw.lat];
+    const mark2 = [bounds._ne.lng, bounds._ne.lat];
+
+    refetchData({
+      long1: mark1[0],
+      lat1: mark1[1],
+      long2: mark2[0],
+      lat2: mark2[1],
+    });
   }
 
   return (
     <>
       <div className="eventMapContainer" ref={mapContainerRef} />
+      <button onClick={handleSearchAreaBtn}>Search This Area</button>
     </>
   );
 }

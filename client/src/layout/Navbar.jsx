@@ -22,9 +22,6 @@ export default function Navbar() {
           <NavLink to="/schedule" className={({ isActive }) => (isActive ? "activeSite" : "")}>
             Schedule
           </NavLink>
-          <NavLink to="/map" className={({ isActive }) => (isActive ? "activeSite" : "")}>
-            Map
-          </NavLink>
         </div>
 
         <div className="accountContainer">

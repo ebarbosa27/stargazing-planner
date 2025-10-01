@@ -2,7 +2,12 @@ import express from "express";
 const router = express.Router();
 export default router;
 
-import { getAllEventLocations, getAllEvents, getEventById } from "../db/queries/events.js";
+import {
+  getAllEventLocations,
+  getAllEvents,
+  getEventById,
+  getNearbyEvents,
+} from "../db/queries/events.js";
 import requireUser from "../middleware/requireUser.js";
 import requireBody from "../middleware/requireBody.js";
 import { createFavorite, deleteFavorite, getFavorite } from "../db/queries/favorites.js";
@@ -17,6 +22,17 @@ import {
 router.route("/").get(async (req, res) => {
   try {
     const events = await getAllEvents();
+    res.status(200).send({ events });
+  } catch (err) {
+    console.log(err);
+    res.status(500).json(err);
+  }
+});
+
+router.route("/search").post(requireBody(["long1", "lat1", "long2", "lat2"]), async (req, res) => {
+  try {
+    const { long1, lat1, long2, lat2 } = req.body;
+    const events = await getNearbyEvents({ long1, lat1, long2, lat2 });
     res.status(200).send({ events });
   } catch (err) {
     console.log(err);
