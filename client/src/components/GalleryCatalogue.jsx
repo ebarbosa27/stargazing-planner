@@ -9,7 +9,6 @@ export default function GalleryCatalogue({ data }) {
       e.preventDefault();
       if (e.deltaY === 0) return;
 
-      const el = galleryRef.current;
       let scrollDirection = 1;
       if (e.deltaY < 0) scrollDirection = -1;
 
