@@ -6,7 +6,13 @@ import { getAllEvents, getEventById } from "../db/queries/events.js";
 import requireUser from "../middleware/requireUser.js";
 import requireBody from "../middleware/requireBody.js";
 import { createFavorite, deleteFavorite, getFavorite } from "../db/queries/favorites.js";
-import { createRsvp, deleteRsvp, getRsvp, patchRsvp } from "../db/queries/rsvps.js";
+import {
+  createRsvp,
+  deleteRsvp,
+  getAllRsvpUsers,
+  getRsvp,
+  patchRsvp,
+} from "../db/queries/rsvps.js";
 
 router.route("/").get(async (req, res) => {
   try {
@@ -26,6 +32,18 @@ router.route("/details/:eventId").get(async (req, res) => {
 
     res.status(200).json(event);
   } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+router.route("/rsvp/users/:eventId").get(async (req, res) => {
+  try {
+    const { eventId } = req.params;
+    const rsvpEvent = await getAllRsvpUsers({ eventId });
+
+    res.status(200).json(rsvpEvent);
+  } catch (err) {
+    console.log(err);
     res.status(500).json(err);
   }
 });
@@ -83,6 +101,7 @@ router
 
       res.status(200).json(rsvpEvent);
     } catch (err) {
+      console.log(err);
       res.status(500).json(err);
     }
   })

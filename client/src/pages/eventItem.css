@@ -4,7 +4,6 @@
 
 #eventItemPage ul {
   list-style: none;
-  /* display: flex; */
   gap: 0;
 
   overflow-x: auto;
@@ -24,13 +23,13 @@
   width: 400px;
   aspect-ratio: 1;
   padding: 0;
+  scroll-snap-align: start;
 }
 
 #eventItemPage img {
   height: 400px;
   aspect-ratio: 1;
 
-  scroll-snap-align: start;
   flex: none;
 }
 
@@ -41,5 +40,11 @@
 }
 
 #eventItemPage .eventActionContainer button {
+  width: 10rem;
+}
+
+#eventItemPage .rsvpDisplay {
+  background-color: red;
+  height: 10rem;
   width: 10rem;
 }

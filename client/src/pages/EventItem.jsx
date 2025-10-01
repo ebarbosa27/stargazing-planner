@@ -5,12 +5,16 @@ import "./eventItem.css";
 import FavoriteAction from "../components/FavoriteAction";
 import { useAuth } from "../auth/AuthContext";
 import RsvpAction from "../components/RsvpAction";
+import EventRsvpDisplay from "../components/EventRsvpDisplay";
+import AttendingButton from "../components/AttendingButton";
+import InterestedButton from "../components/InterestedButton";
 
 export default function EventItem() {
   const { eventId } = useParams();
   const { token: userToken } = useAuth();
 
   const { data, loading, error } = useQuery(`/events/details/${eventId}`, "events");
+  const rsvpEvent = useQuery(`/events/rsvp/${eventId}`, "clientRsvp");
 
   if (loading) return <div>Loading . . .</div>;
   if (error) {
@@ -27,11 +31,16 @@ export default function EventItem() {
       {userToken ? (
         <div className="eventActionContainer">
           <FavoriteAction eventId={eventId} />
-          <RsvpAction eventId={eventId} />
+          <div>
+            <AttendingButton eventId={eventId} rsvpEvent={rsvpEvent} />
+            <InterestedButton eventId={eventId} rsvpEvent={rsvpEvent} />
+          </div>
+          {/* <RsvpAction eventId /> */}
         </div>
       ) : (
-        ""
+        <div />
       )}
+      <div>{/* <EventRsvpDisplay eventId={eventId} rsvpEvent={rsvpEvent} /> */}</div>
     </div>
   );
 }

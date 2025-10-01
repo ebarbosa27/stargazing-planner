@@ -51,3 +51,15 @@ export async function getRsvp({ userId, eventId }) {
   } = await db.query(sql, [userId, eventId]);
   return rsvp;
 }
+
+export async function getAllRsvpUsers({ eventId }) {
+  const sql = `
+  SELECT 
+    user_id
+  FROM 
+    rsvps 
+  WHERE 
+    event_id = $1`;
+  const { rows: users } = await db.query(sql, [eventId]);
+  return users;
+}
