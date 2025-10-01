@@ -77,6 +77,7 @@ export default function EventsMapComponent({ refetchData, searchEvents }) {
   return (
     <>
       <div className="eventMapContainer" ref={mapContainerRef} />
+      {searchEvents?.loading && <div>Loading . . .</div>}
       <button onClick={handleSearchAreaBtn}>Search This Area</button>
     </>
   );
