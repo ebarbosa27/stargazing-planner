@@ -9,7 +9,6 @@ import Posts from "./pages/Posts";
 import Events from "./pages/Events";
 import Schedule from "./pages/Schedule";
 import Account from "./pages/Account";
-import MapPage from "./pages/Map";
 import EventItem from "./pages/EventItem";
 
 function App() {
@@ -23,7 +22,6 @@ function App() {
           <Route path="/events/:eventId" element={<EventItem />} />
           <Route path="/schedule" element={<Schedule />} />
           <Route path="/account" element={<Account />} />
-          <Route path="/map" element={<MapPage />} />
         </Route>
         <Route element={<Layout disableNavbar />}>
           <Route path="/login" element={<Login />} />

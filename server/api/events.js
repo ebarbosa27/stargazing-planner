@@ -2,7 +2,7 @@ import express from "express";
 const router = express.Router();
 export default router;
 
-import { getAllEvents, getEventById } from "../db/queries/events.js";
+import { getAllEventLocations, getAllEvents, getEventById } from "../db/queries/events.js";
 import requireUser from "../middleware/requireUser.js";
 import requireBody from "../middleware/requireBody.js";
 import { createFavorite, deleteFavorite, getFavorite } from "../db/queries/favorites.js";
@@ -42,6 +42,15 @@ router.route("/rsvp/users/:eventId").get(async (req, res) => {
     const rsvpEvent = await getAllRsvpUsers({ eventId });
 
     res.status(200).json(rsvpEvent);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+router.route("/location").get(async (req, res) => {
+  try {
+    const eventsLocation = await getAllEventLocations();
+    res.status(200).json({ eventsLocation });
   } catch (err) {
     console.log(err);
     res.status(500).json(err);

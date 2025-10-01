@@ -26,7 +26,7 @@ export async function getAllEvents() {
   const sql = `
   SELECT 
     *, 
-    concat(ST_X(location::geometry), ', ', ST_Y(location::geometry)) AS coordinates 
+    ARRAY[ST_X(location::geometry), ST_Y(location::geometry)] AS coordinates 
   FROM 
     events
   ORDER BY  
@@ -35,11 +35,12 @@ export async function getAllEvents() {
   const { rows: events } = await db.query(sql);
   return events;
 }
+
 export async function getEventById({ id }) {
   const sql = `
   SELECT 
     *, 
-    concat(ST_X(location::geometry), ', ', ST_Y(location::geometry)) AS coordinates  
+    ARRAY[ST_X(location::geometry), ST_Y(location::geometry)] AS coordinates 
   FROM
     events
   WHERE 
@@ -49,4 +50,15 @@ export async function getEventById({ id }) {
     rows: [event],
   } = await db.query(sql, [id]);
   return event;
+}
+
+export async function getAllEventLocations() {
+  const sql = `
+  SELECT 
+    ARRAY[ST_X(location::geometry), ST_Y(location::geometry)] AS coordinates 
+  FROM 
+    events
+  `;
+  const { rows: eventsLocation } = await db.query(sql);
+  return eventsLocation;
 }

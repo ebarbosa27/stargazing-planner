@@ -1,6 +1,7 @@
 import useQuery from "../api/useQuery";
 import { useNavigate } from "react-router";
 import "./events.css";
+import EventsMapComponent from "../components/EventsMapComponent";
 
 export default function Events() {
   const { data, loading, error } = useQuery("/events", "events");
@@ -14,6 +15,7 @@ export default function Events() {
   return (
     <div id="eventsPage">
       <h2>Events Page</h2>
+      {data?.events && <EventsMapComponent eventsData={data.events} />}
       <ol>
         {data?.events
           ? data.events.map((event) => {
@@ -28,7 +30,6 @@ export default function Events() {
                     <h3>{event.name}</h3>
                     <div className="listContent">
                       <p>{event.description}</p>
-                      <p>[{event.coordinates}]</p>
                       <p> {eventDate.toLocaleString().split(",")[0]}</p>
                       {/* <p>CREATED AT: {createdDate.toLocaleString().split(",")[0]}</p> */}
                     </div>
