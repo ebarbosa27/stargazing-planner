@@ -1,20 +1,54 @@
 #accountPage {
+  display: flex;
+  width: 100%;
+  gap: 1rem;
+}
+
+.accountInfo {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.accountInfo h3 {
+  font-size: 20px;
+}
+
+.accountInfo button {
+  font-size: 16px;
+  width: 10rem;
+}
+
+.eventInteractions {
+  flex: 2;
+  min-width: 0;
 }
 
 .catalogueRow {
-  width: 60vw;
   list-style: none;
   gap: 1rem;
 
   overflow-x: auto;
   overflow-y: hidden;
   white-space: nowrap;
+  scrollbar-width: 2px;
 
   padding: 0;
-  padding-bottom: -10px;
+  padding-bottom: 2px;
   border-radius: 0.2rem;
 
   scroll-snap-type: x mandatory;
+}
+
+.catalogueContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.catalogueContainer div h3 {
+  text-transform: uppercase;
+  margin: 0;
 }
 
 .catalogueRow li {
@@ -23,16 +57,41 @@
   aspect-ratio: 1;
   padding: 0;
   scroll-snap-align: start;
+
+  position: relative;
+  user-select: none;
 }
 
-.catalogueRow .imageContainer {
+.catalogueRow li .imageContainer {
   width: 200px;
   aspect-ratio: 1;
   overflow: hidden;
 }
 
-.catalogueRow img {
+.catalogueRow li img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  pointer-events: none;
+}
+
+.catalogueRow li p {
+  position: absolute;
+  margin: 0;
+  padding: 2px 4px;
+  bottom: 0;
+  left: 0;
+
+  max-width: 80%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  font-size: 16px;
+  font-weight: 500;
+  text-transform: capitalize;
+  color: white;
+  text-shadow: 2px 2px 2px black;
+  background-color: rgba(128, 128, 128, 0.5);
+  border-radius: 0 4px 0 0;
 }

@@ -11,4 +11,8 @@
 #app #content {
   width: 95vw;
   margin: 1.5rem;
+
+  display: flex;
+  justify-content: center;
+  max-width: 1000px;
 }

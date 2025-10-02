@@ -1,7 +1,9 @@
 import { useEffect, useRef } from "react";
+import { useNavigate } from "react-router";
 
 export default function EventCatalogue({ events, componentName }) {
   const catalogueRef = useRef();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const el = catalogueRef.current;
@@ -9,11 +11,13 @@ export default function EventCatalogue({ events, componentName }) {
       e.preventDefault();
       if (e.deltaY === 0) return;
 
+      const scrollDistance = el.children[0].clientWidth;
+
       let scrollDirection = 1;
       if (e.deltaY < 0) scrollDirection = -1;
 
       el.scrollTo({
-        left: el.scrollLeft + e.target.width * scrollDirection,
+        left: el.scrollLeft + scrollDistance * scrollDirection,
         behavior: "smooth",
       });
     };
@@ -26,11 +30,15 @@ export default function EventCatalogue({ events, componentName }) {
   }, []);
 
   return (
-    <ul className="catalogueRow" ref={catalogueRef}>
-      {events
-        ? events.map((event) => {
+    <div className="catalogueContainer">
+      <div>
+        <h3>{componentName}</h3>
+      </div>
+      <ul className="catalogueRow" ref={catalogueRef}>
+        {events ? (
+          events.map((event) => {
             return (
-              <li key={event.id}>
+              <li key={event.id} onClick={() => navigate(`/events/${event.id}`)}>
                 <div className="imageContainer">
                   <img src={event.image_urls[0]} alt="Event" />
                 </div>
@@ -38,7 +46,10 @@ export default function EventCatalogue({ events, componentName }) {
               </li>
             );
           })
-        : `No ${componentName} events found`}
-    </ul>
+        ) : (
+          <p>`No ${componentName} events found`</p>
+        )}
+      </ul>
+    </div>
   );
 }
