@@ -1,3 +1,7 @@
+#eventsPage {
+  width: 100%;
+}
+
 #eventsPage ol {
   display: flex;
   flex-direction: column;
