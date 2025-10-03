@@ -7,12 +7,14 @@ export default function EventsMapComponent({ refetchData, searchEvents }) {
   const mapContainerRef = useRef();
   const mapRef = useRef();
 
+  const MAPBOX_KEY = import.meta.env.VITE_MAPBOX_API_KEY;
   const [center, setCenter] = useState([-98.5556199, 39.8097343]);
   const [zoom, setZoom] = useState(3.5);
   const [markers] = useState(new Array());
 
+  if (!MAPBOX_KEY) return <div></div>;
   useEffect(() => {
-    mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_API_KEY;
+    mapboxgl.accessToken = MAPBOX_KEY;
     const map = new mapboxgl.Map({
       container: mapContainerRef.current,
       center: center,
