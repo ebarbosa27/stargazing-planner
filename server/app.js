@@ -8,9 +8,11 @@ import getUserFromToken from "./middleware/getUserFromToken.js";
 
 import usersRouter from "./api/users.js";
 import eventsRouter from "./api/events.js";
+import newsRouter from "./api/news.js";
 
 app.use(express.json());
 app.use(getUserFromToken);
 
 app.use("/users", usersRouter);
 app.use("/events", eventsRouter);
+app.use("/news", newsRouter);
