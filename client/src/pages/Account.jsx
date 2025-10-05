@@ -1,8 +1,12 @@
+import { useState } from "react";
 import useQuery from "../api/useQuery";
 import EventCatalogue from "../components/EventCatalogue";
+import CreateEventDisplay from "../components/CreateEventDisplay";
 import "./account.css";
 
 export default function Account() {
+  const [showEvent, setShowEvent] = useState(false);
+
   const { data, loading, error } = useQuery("/users/accountPage", "accountPage");
 
   if (error) {
@@ -18,13 +22,14 @@ export default function Account() {
       <div className="accountInfo">
         <h3>Hello {data.username}!</h3>
         <p>{data.email}</p>
-        <button>Create Event</button>
+        <button onClick={() => setShowEvent(true)}>Create Event</button>
         <button>Create Hotspot</button>
       </div>
       <div className="eventInteractions">
         <EventCatalogue events={data.rsvp_events} componentName="rsvp" />
         <EventCatalogue events={data.favorite_events} componentName="favorite" />
       </div>
+      {showEvent ? <CreateEventDisplay setShowEvent={setShowEvent} /> : ""}
     </div>
   );
 }

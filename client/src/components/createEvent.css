@@ -1,0 +1,45 @@
+#createEventDisplay {
+  position: absolute;
+  background-color: rgba(173, 216, 230, 0.1);
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#createEventDisplay .createContainer {
+  font-size: 24px;
+  background-color: gray;
+  width: 500px;
+  max-width: 90%;
+  height: 500px;
+  max-height: 90%;
+}
+
+#createEventDisplay .createContainer form {
+  display: flex;
+  flex-direction: column;
+}
+
+#createEventDisplay .createContainer form label input {
+  width: 90%;
+  align-self: center;
+}
+
+#createEventDisplay .closeDisplay {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100px;
+  height: 100px;
+  background-color: transparent;
+  color: white;
+  font-weight: bold;
+  font-size: 48px;
+  border: none;
+  cursor: pointer;
+}
