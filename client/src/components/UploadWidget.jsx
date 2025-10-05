@@ -1,31 +1,36 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useState } from "react";
+import { Cloudinary } from "@cloudinary/url-gen";
+import { auto } from "@cloudinary/url-gen/actions/resize";
+import { autoGravity } from "@cloudinary/url-gen/qualifiers/gravity";
+import { AdvancedImage } from "@cloudinary/react";
 
-const UploadWidget = () => {
-  const cloudinaryRef = useRef();
-  const widgetRef = useRef();
+export default function UploadWidget() {
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [imageUpload, setImageUpload] = useState(null);
+
+  const cld = new Cloudinary({ cloud: { cloudName: "dvetua8fh" } });
 
   useEffect(() => {
-    cloudinaryRef.current = window.cloudinary;
-    widgetRef.current = cloudinaryRef.current.createUploadWidget(
-      {
-        cloudName: "YOUR_CLOUD_NAME", // Replace with your Cloudinary cloud name
-        uploadPreset: "YOUR_UPLOAD_PRESET", // Replace with your unsigned upload preset name
-        // Add other widget options as needed (e.g., cropping, sources)
-      },
-      (error, result) => {
-        if (!error && result && result.event === "success") {
-          console.log("Done! Here is the image info: ", result.info);
-          // Handle successful upload (e.g., save secure_url to your database, display image)
-        }
-      }
-    );
-  }, []);
+    if (!selectedFile || true) return;
+    console.log(selectedFile);
+    const img = cld
+      .image(`[Public ID Here]`)
+      .format("auto")
+      .quality("auto")
+      .resize(auto().gravity(autoGravity()).width(500).height(500));
+    setImageUpload(img);
+  }, [selectedFile]);
 
-  const openWidget = () => {
-    widgetRef.current.open();
-  };
-
-  return <button onClick={openWidget}>Upload Image</button>;
-};
-
-export default UploadWidget;
+  return (
+    <>
+      <input
+        type="file"
+        accept="image/*"
+        onChange={(e) => {
+          setSelectedFile(e.target.files[0]);
+        }}
+      />
+      {imageUpload && <AdvancedImage cldImg={imageUpload} />}
+    </>
+  );
+}
