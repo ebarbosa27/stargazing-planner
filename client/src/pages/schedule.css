@@ -59,9 +59,11 @@
 #schedulePage ol li .eventDetails a {
   color: rgb(139, 139, 139);
   text-decoration: none;
+  margin-left: 1rem;
 }
 
 #schedulePage ol li .eventName {
+  text-transform: capitalize;
   font-size: 20px;
   font-weight: bold;
   margin-bottom: 1rem;
