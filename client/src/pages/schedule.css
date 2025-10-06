@@ -33,9 +33,6 @@
   text-decoration: underline;
 }
 
-#schedulePage ol li .eventCountdown {
-}
-
 #schedulePage ol li .eventContent {
   flex: 1;
   display: flex;
