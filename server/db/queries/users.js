@@ -45,7 +45,20 @@ export async function getUserEvents({ userId }) {
 }
 
 export async function getUserRsvps({ userId }) {
-  const sql = `SELECT * FROM rsvps WHERE user_id = $1`;
+  const sql = `
+  SELECT 
+    events.*,
+    concat(ST_X(events.location::geometry), ', ', ST_Y(events.location::geometry)) AS coordinates
+
+  FROM 
+    rsvps
+  JOIN 
+    events ON events.id = rsvps.event_id  
+  WHERE 
+    rsvps.user_id = $1 
+  ORDER BY 
+    date ASC
+  `;
   const { rows: rsvps } = await db.query(sql, [userId]);
   return rsvps;
 }

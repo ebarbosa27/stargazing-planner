@@ -1,14 +1,14 @@
 import { useNavigate } from "react-router";
+import "./eventListings.css";
 
 export default function EventListings({ events }) {
   const navigate = useNavigate();
 
   if (!events) return <div>Loading . . .</div>;
-
   if (events.length === 0) return <div>No events in this area</div>;
 
   return (
-    <>
+    <ol id="eventListings">
       {events.map((event) => {
         const eventDate = new Date(event.date);
         return (
@@ -30,6 +30,6 @@ export default function EventListings({ events }) {
           </li>
         );
       })}
-    </>
+    </ol>
   );
 }

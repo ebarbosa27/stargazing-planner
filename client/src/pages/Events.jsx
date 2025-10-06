@@ -1,8 +1,8 @@
 import useQuery from "../api/useQuery";
 import useMutation from "../api/useMutation";
-import "./events.css";
 import EventsMapComponent from "../components/EventsMapComponent";
 import EventListings from "../components/EventListings";
+import "./events.css";
 
 export default function Events() {
   const allEvents = useQuery("/events", "events");
@@ -25,11 +25,9 @@ export default function Events() {
           searchEvents={searchEvents.data?.events}
         />
       )}
-      <ol>
-        <EventListings
-          events={searchEvents?.data ? searchEvents?.data?.events : allEvents?.data?.events}
-        />
-      </ol>
+      <EventListings
+        events={searchEvents?.data ? searchEvents?.data?.events : allEvents?.data?.events}
+      />
     </div>
   );
 }

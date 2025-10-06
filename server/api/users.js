@@ -96,10 +96,11 @@ router
   .route("/rsvps")
   .get(async (req, res) => {
     try {
-      const rsvps = await getUserRsvps({ userId: req.user.id });
-      if (!rsvps) return res.status(404).json({ message: "No data found" });
-      res.status(200).json({ rsvps });
+      const events = await getUserRsvps({ userId: req.user.id });
+      if (!events) return res.status(404).json({ message: "No data found" });
+      res.status(200).json({ events });
     } catch (err) {
+      console.error(err);
       res.status(500).json(err);
     }
   })
