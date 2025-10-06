@@ -10,7 +10,6 @@ import Events from "./pages/Events";
 import Schedule from "./pages/Schedule";
 import Account from "./pages/Account";
 import EventItem from "./pages/EventItem";
-import Test from "./pages/Test";
 
 function App() {
   return (
@@ -23,7 +22,6 @@ function App() {
           <Route path="/events/:eventId" element={<EventItem />} />
           <Route path="/schedule" element={<Schedule />} />
           <Route path="/account" element={<Account />} />
-          <Route path="/test" element={<Test />} />
         </Route>
         <Route element={<Layout disableNavbar />}>
           <Route path="/login" element={<Login />} />
