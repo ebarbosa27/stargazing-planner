@@ -1,4 +1,5 @@
 import useQuery from "../api/useQuery";
+import "./posts.css";
 
 export default function Posts() {
   const { data, loading, error } = useQuery("/news", "news");
@@ -7,27 +8,35 @@ export default function Posts() {
   if (error) return <div>Error Occured </div>;
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-      }}
-    >
-      <h2>News Page</h2>
+    <div id="postsPage">
+      <h2>News </h2>
       <ol>
         {data?.results
           ? data?.results.map((newsEvent) => {
+              const publishDate = new Date(newsEvent.published_at);
               return (
-                <li key={newsEvent.id}>
-                  <div style={{ width: "300px", aspectRatio: "1" }}>
-                    <img
-                      src={newsEvent.image_url}
-                      alt=""
-                      style={{ width: "300px", aspectRatio: "1" }}
-                    />
+                <li
+                  key={newsEvent.id}
+                  onClick={() => {
+                    window.location.href = newsEvent.url;
+                  }}
+                >
+                  <div className="articleImage">
+                    <img src={newsEvent.image_url} alt="article image" />
                   </div>
-                  <h3>{newsEvent.title}</h3>
-                  <p>{newsEvent.summary}</p>
+                  <div className="articleDetails">
+                    <div className="articleTitle">
+                      <h3>{newsEvent.title}</h3>
+                      <div>{publishDate.toLocaleDateString()}</div>
+                      <div>
+                        By:
+                        {newsEvent.authors.map((author, idx) => (
+                          <span key={"author-" + idx}>{author.name}</span>
+                        ))}
+                      </div>
+                    </div>
+                    <p>{newsEvent.summary}</p>
+                  </div>
                 </li>
               );
             })

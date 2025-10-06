@@ -2,7 +2,6 @@ import { Routes, Route } from "react-router";
 import "./App.css";
 
 import Layout from "./layout/Layout";
-import Home from "./pages/Home";
 import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Posts from "./pages/Posts";
@@ -16,8 +15,7 @@ function App() {
     <div id="app">
       <Routes>
         <Route element={<Layout />}>
-          <Route path="/" element={<Home />} />
-          <Route path="/posts" element={<Posts />} />
+          <Route path="/" element={<Posts />} />
           <Route path="/events" element={<Events />} />
           <Route path="/events/:eventId" element={<EventItem />} />
           <Route path="/schedule" element={<Schedule />} />

@@ -13,15 +13,17 @@ export default function Navbar() {
       </div>
       <div className="navLinks">
         <div className="navPages">
-          <NavLink to="/posts" className={({ isActive }) => (isActive ? "activeSite" : "")}>
+          <NavLink to="/" className={({ isActive }) => (isActive ? "activeSite" : "")}>
             Posts
           </NavLink>
           <NavLink to="/events" className={({ isActive }) => (isActive ? "activeSite" : "")}>
             Events
           </NavLink>
-          <NavLink to="/schedule" className={({ isActive }) => (isActive ? "activeSite" : "")}>
-            Schedule
-          </NavLink>
+          {token && (
+            <NavLink to="/schedule" className={({ isActive }) => (isActive ? "activeSite" : "")}>
+              Schedule
+            </NavLink>
+          )}
         </div>
 
         <div className="accountContainer">

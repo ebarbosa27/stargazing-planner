@@ -1,0 +1,54 @@
+#postsPage {
+  display: "flex";
+  flex-direction: "column";
+}
+
+#postsPage ol {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+#postsPage li {
+  width: 100%;
+  display: flex;
+  border: 2px solid white;
+  cursor: pointer;
+}
+
+#postsPage li .articleImage {
+  flex: 1;
+  min-width: 250px;
+  aspect-ratio: 1;
+
+  overflow: hidden;
+}
+
+#postsPage li .articleImage img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#postsPage li .articleDetails {
+  padding: 0.5rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+#postsPage li .articleDetails h3 {
+  font-size: 20px;
+}
+
+#postsPage li .articleSubtitle {
+  display: flex;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+}
+
+#postsPage li .articleSubtitle p {
+  margin: 0;
+  padding: 0;
+}
