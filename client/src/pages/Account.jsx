@@ -27,7 +27,7 @@ export default function Account() {
         <EventCatalogue events={data.rsvp_events} componentName="rsvp" />
         <EventCatalogue events={data.favorite_events} componentName="favorite" />
       </div>
-      {showEvent ? <CreateEventDisplay setShowEvent={setShowEvent} /> : ""}
+      {showEvent && <CreateEventDisplay setShowEvent={setShowEvent} />}
     </div>
   );
 }

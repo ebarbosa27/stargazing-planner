@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useMutation from "../api/useMutation";
 import UploadWidget from "./UploadWidget";
 import SelectLocation from "./SelectLocation";
@@ -7,10 +7,26 @@ import "./createEvent.css";
 export default function CreateEventDisplay({ setShowEvent }) {
   const [selectedFiles, setSelectedFiles] = useState([]);
   const [selectedLocation, setSelectedLocation] = useState(null);
+
+  const [loading, setLoading] = useState(null);
   const [error, setError] = useState(null);
 
-  const createEvent = useMutation("POST", "/events/", ["events"]);
-  const updateImages = useMutation("PATCH", "/events/images", ["events"]);
+  const { mutate: createEvent, data: eventData } = useMutation("POST", "/events/", ["events"]);
+  const { mutate: updateImages, data: updateData } = useMutation("PATCH", "/events/images", [
+    "events",
+  ]);
+
+  useEffect(() => {
+    if (!eventData && !loading) return;
+    uploadImages(eventData.id);
+  }, [eventData]);
+
+  useEffect(() => {
+    if (!updateData) return;
+    console.log("Images updated successfully");
+    console.log(updateData);
+    setShowEvent(false);
+  }, [updateData]);
 
   const url = `https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUD_NAME}/image/upload`;
   async function uploadImages(eventId) {
@@ -32,10 +48,12 @@ export default function CreateEventDisplay({ setShowEvent }) {
         return imageUrl;
       });
       const imageUrls = await Promise.all(results);
-      await updateImages.mutate({ imageUrls, eventId });
-      updateImages.data && console.log("Event Created Succesfully");
+      setLoading(false);
+      await updateImages({ imageUrls, eventId });
     } catch (err) {
       console.error(err);
+      setLoading(false);
+      setError(err.message);
     }
   }
 
@@ -49,17 +67,17 @@ export default function CreateEventDisplay({ setShowEvent }) {
       location: selectedLocation,
     };
     try {
+      setLoading(true);
       setError(null);
 
       for (const key in event) {
         if (!event[key]) throw new Error(`The ${key} is missing from the event details.`);
       }
-      await createEvent.mutate(event);
-      console.log(createEvent.data);
-      await uploadImages(createEvent.data.id);
+      await createEvent(event);
     } catch (err) {
       console.error(err);
       setError(err.message);
+      setLoading(false);
     }
   }
 
@@ -70,6 +88,7 @@ export default function CreateEventDisplay({ setShowEvent }) {
           <img src={"close-icon.svg"} />
         </button>
         <h3>Create Event</h3>
+        <br />
         <form onSubmit={handleCreateEvent}>
           <label>
             <span>Name</span>
@@ -98,6 +117,7 @@ export default function CreateEventDisplay({ setShowEvent }) {
           {error && <output>{error}</output>}
         </form>
       </div>
+      {loading && <div className="loadingCreateEvent">Loading. . .</div>}
     </div>
   );
 }

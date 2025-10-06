@@ -112,3 +112,24 @@
   font-size: 16px;
   text-shadow: 1px 1px 3px rgba(75, 75, 75, 1);
 }
+
+#createEventDisplay .loadingCreateEvent {
+  z-index: 100;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  padding: 0;
+  margin: 0;
+  font-size: 24px;
+  font-weight: bold;
+  text-shadow: 2px 2px 2px black;
+
+  color: white;
+  backdrop-filter: blur(1px) brightness(80%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
