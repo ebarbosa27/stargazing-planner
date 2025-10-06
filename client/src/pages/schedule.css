@@ -21,10 +21,19 @@
   filter: brightness(110%);
 }
 
-#schedulePage ol li .eventDate {
+#schedulePage ol li .eventHeader {
   font-size: 24px;
   margin-bottom: 1rem;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+#schedulePage ol li .eventDate {
   text-decoration: underline;
+}
+
+#schedulePage ol li .eventCountdown {
 }
 
 #schedulePage ol li .eventContent {

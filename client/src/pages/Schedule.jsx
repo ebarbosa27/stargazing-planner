@@ -1,8 +1,11 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
 import useQuery from "../api/useQuery";
 import "./schedule.css";
 
 export default function Schedule() {
+  const navigate = useNavigate();
+
   const [upcomingEvents, setUpcomingEvents] = useState(null);
 
   const { data: rsvpEvents, loading, error } = useQuery("/users/rsvps", "events");
@@ -26,27 +29,36 @@ export default function Schedule() {
 
   return (
     <div id="schedulePage">
-      <h2>Schedule Page</h2>
+      <h2>RSVP'd Events</h2>
       <div className="eventsListed">
-        <h3>RSVPs</h3>
         {upcomingEvents ? (
           <ol>
             {upcomingEvents.map((event) => {
               const [long, lat] = event.coordinates.split(",");
+
               const eventDate = new Date(event.date);
               const day = dayOfWeek[eventDate.getDay()];
               const [date, time] = eventDate.toLocaleString().split(",");
               const dateString = `${day} ${date} @ ${time}`;
+
+              const dateDifference = eventDate - Date.now();
+              const daysAway = dateDifference / (1000 * 60 * 60 * 24);
+
               return (
-                <li key={event.id}>
-                  <div className="eventDate">{dateString}</div>
+                <li key={event.id} onClick={() => navigate(`/events/${event.id}`)}>
+                  <div className="eventHeader">
+                    <div className="eventDate">{dateString}</div>
+                    <div className="eventCountdown">
+                      {daysAway > 1 ? `${Math.floor(daysAway)} days away` : "today"}
+                    </div>
+                  </div>
                   <div className="eventContent">
                     <div className="eventImage">
                       <img src={event.image_urls[0]} alt="" />
                     </div>
                     <div className="eventDetails">
                       <div className="eventName">
-                        {event.name}{" "}
+                        {event.name}
                         <a href={`https://maps.google.com/?q=${lat},${long}`}>
                           [{event.coordinates}]
                         </a>
