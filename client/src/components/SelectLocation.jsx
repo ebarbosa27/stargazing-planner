@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react";
-import { Geocoder } from "@mapbox/search-js-react";
 import mapboxgl from "mapbox-gl";
 import "./selectMap.css";
 
@@ -27,7 +26,6 @@ export default function SelectLocation() {
       const mapCenter = mapRef.current.getCenter();
       const mapZoom = mapRef.current.getZoom();
 
-      markerRef.current.setLngLat(mapCenter);
       setCenter(mapCenter);
       setZoom(mapZoom);
     });
@@ -43,23 +41,23 @@ export default function SelectLocation() {
     };
   }, []);
 
+  function handleSelector(e) {
+    e.preventDefault();
+    markerRef.current.setLngLat(center);
+  }
+
   return (
     <>
-      <div className="selectMap" ref={mapContainerRef} />
+      <div className="selectMap" ref={mapContainerRef}>
+        <img id="mapCrosshair" src="map-crosshair.svg" alt="Center Marker" />
+      </div>
       <div className="locationContainer">
         {center?.lng && center?.lat && (
           <div>
             {center.lng.toFixed(6)}, {center.lat.toFixed(6)}
           </div>
         )}
-        <button
-          onClick={(e) => {
-            e.preventDefault();
-            console.log(center);
-          }}
-        >
-          Select
-        </button>
+        <button onClick={handleSelector}>Select</button>
       </div>
     </>
   );

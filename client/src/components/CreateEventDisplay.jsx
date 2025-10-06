@@ -5,7 +5,6 @@ import "./createEvent.css";
 
 export default function CreateEventDisplay({ setShowEvent }) {
   const [selectedFiles, setSelectedFiles] = useState([]);
-  const [disableSubmit, setDisableSubmit] = useState(false);
 
   const url = `https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUD_NAME}/image/upload`;
   async function uploadImages() {
@@ -52,6 +51,7 @@ export default function CreateEventDisplay({ setShowEvent }) {
         <button className="closeDisplay" onClick={() => setShowEvent(false)}>
           <img src={"close-icon.svg"} />
         </button>
+        <h3>Create Event</h3>
         <form action={handleCreateEvent}>
           <label>
             <span>Name</span>
@@ -73,9 +73,7 @@ export default function CreateEventDisplay({ setShowEvent }) {
             <span>Images</span>
             <UploadWidget selectedFiles={selectedFiles} setSelectedFiles={setSelectedFiles} />
           </label>
-          <button type="submit" disabled={disableSubmit}>
-            Submit
-          </button>
+          <button type="submit">Submit</button>
         </form>
       </div>
     </div>

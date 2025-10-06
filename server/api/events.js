@@ -19,15 +19,29 @@ import {
   patchRsvp,
 } from "../db/queries/rsvps.js";
 
-router.route("/").get(async (req, res) => {
-  try {
-    const events = await getAllEvents();
-    res.status(200).send({ events });
-  } catch (err) {
-    console.log(err);
-    res.status(500).json(err);
-  }
-});
+router
+  .route("/")
+  .get(async (req, res) => {
+    try {
+      const events = await getAllEvents();
+      res.status(200).send({ events });
+    } catch (err) {
+      console.log(err);
+      res.status(500).json(err);
+    }
+  })
+  .post(
+    requireUser,
+    requireBody(["name", "date", "location", "description", "imageUrls"]),
+    async (req, res) => {
+      try {
+        res.status(201).json({});
+      } catch (err) {
+        console.error(err);
+        res.status(500).json(err);
+      }
+    }
+  );
 
 router.route("/search").post(requireBody(["long1", "lat1", "long2", "lat2"]), async (req, res) => {
   try {

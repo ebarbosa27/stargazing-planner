@@ -18,6 +18,7 @@
   background-color: rgb(75, 83, 90);
   box-shadow: 0 0 5px black;
   border-radius: 0.4rem;
+  padding: 2rem;
 
   width: 500px;
   max-width: 90%;
@@ -26,11 +27,17 @@
   overflow-y: auto;
 }
 
+#createEventDisplay .createContainer h3 {
+  font-size: 32px;
+  padding: 0;
+  margin: 0;
+}
+
 #createEventDisplay .createContainer form {
   display: flex;
   flex-direction: column;
   gap: 2rem;
-  padding: 3rem;
+  padding: 1rem;
 }
 
 #createEventDisplay .createContainer form label {
