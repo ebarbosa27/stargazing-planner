@@ -4,27 +4,42 @@ import "./eventListings.css";
 export default function EventListings({ events }) {
   const navigate = useNavigate();
 
-  if (!events) return <div>Loading . . .</div>;
+  const dayOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+  if (!events) return <div>Error no events</div>;
   if (events.length === 0) return <div>No events in this area</div>;
 
   return (
-    <ol id="eventListings">
+    <ol className="eventsListing">
       {events.map((event) => {
+        const [long, lat] = event.coordinates;
+
         const eventDate = new Date(event.date);
+        const day = dayOfWeek[eventDate.getDay()];
+        const [date, time] = eventDate.toLocaleString().split(",");
+        const dateString = `${day} ${date} @ ${time}`;
+
+        const dateDifference = eventDate - Date.now();
+        const daysAway = dateDifference / (1000 * 60 * 60 * 24);
+
         return (
           <li key={event.id} onClick={() => navigate(`/events/${event.id}`)}>
-            <div className="listImageContainer">
-              <img
-                src={event.image_urls ? event.image_urls[0] : undefined}
-                alt="View of Location"
-              />
+            <div className="eventHeader">
+              <div className="eventDate">{dateString}</div>
+              <div className="eventCountdown">
+                {daysAway > 1 ? `${Math.floor(daysAway)} days away` : "today"}
+              </div>
             </div>
-            <div className="listContentContainer">
-              <h3>{event.name}</h3>
-              <div className="listContent">
-                <p>{event.description}</p>
-                <p> {eventDate.toLocaleString().split(",")[0]}</p>
-                {/* <p>CREATED AT: {createdDate.toLocaleString().split(",")[0]}</p> */}
+            <div className="eventContent">
+              <div className="eventImage">
+                <img src={event.image_urls[0]} alt="" />
+              </div>
+              <div className="eventDetails">
+                <div className="eventName">
+                  {event.name}
+                  <a href={`https://maps.google.com/?q=${lat},${long}`}>[{event.coordinates}]</a>
+                </div>
+                <div className="eventDescription">{event.description}</div>
               </div>
             </div>
           </li>

@@ -48,8 +48,7 @@ export async function getUserRsvps({ userId }) {
   const sql = `
   SELECT 
     events.*,
-    concat(ST_X(events.location::geometry), ', ', ST_Y(events.location::geometry)) AS coordinates
-
+    ARRAY[ST_X(location::geometry), ST_Y(location::geometry)] AS coordinates 
   FROM 
     rsvps
   JOIN 
