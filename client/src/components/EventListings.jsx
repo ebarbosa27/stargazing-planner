@@ -1,8 +1,20 @@
 import { useNavigate } from "react-router";
 import "./eventListings.css";
+import { useEffect, useState } from "react";
 
 export default function EventListings({ events }) {
   const navigate = useNavigate();
+
+  const [upcomingEvents, setUpcomingEvents] = useState([]);
+
+  useEffect(() => {
+    if (!events) return;
+    const upcoming = events.filter((event) => {
+      const eventDate = new Date(event.date);
+      if (eventDate > Date.now()) return true;
+    });
+    setUpcomingEvents(upcoming);
+  }, [events]);
 
   const dayOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
@@ -11,40 +23,44 @@ export default function EventListings({ events }) {
 
   return (
     <ol className="eventsListing">
-      {events.map((event) => {
-        const [long, lat] = event.coordinates;
+      {upcomingEvents && upcomingEvents.length > 0 ? (
+        upcomingEvents.map((event) => {
+          const [long, lat] = event.coordinates;
 
-        const eventDate = new Date(event.date);
-        const day = dayOfWeek[eventDate.getDay()];
-        const [date, time] = eventDate.toLocaleString().split(",");
-        const dateString = `${day} ${date} @ ${time}`;
+          const eventDate = new Date(event.date);
+          const day = dayOfWeek[eventDate.getDay()];
+          const [date, time] = eventDate.toLocaleString().split(",");
+          const dateString = `${day} ${date} @ ${time}`;
 
-        const dateDifference = eventDate - Date.now();
-        const daysAway = dateDifference / (1000 * 60 * 60 * 24);
+          const dateDifference = eventDate - Date.now();
+          const daysAway = dateDifference / (1000 * 60 * 60 * 24);
 
-        return (
-          <li key={event.id} onClick={() => navigate(`/events/${event.id}`)}>
-            <div className="eventHeader">
-              <div className="eventDate">{dateString}</div>
-              <div className="eventCountdown">
-                {daysAway > 1 ? `${Math.floor(daysAway)} days away` : "today"}
-              </div>
-            </div>
-            <div className="eventContent">
-              <div className="eventImage">
-                <img src={event.image_urls[0]} alt="" />
-              </div>
-              <div className="eventDetails">
-                <div className="eventName">
-                  {event.name}
-                  <a href={`https://maps.google.com/?q=${lat},${long}`}>[{event.coordinates}]</a>
+          return (
+            <li key={event.id} onClick={() => navigate(`/events/${event.id}`)}>
+              <div className="eventHeader">
+                <div className="eventDate">{dateString}</div>
+                <div className="eventCountdown">
+                  {daysAway > 1 ? `${Math.floor(daysAway)} days away` : "today"}
                 </div>
-                <div className="eventDescription">{event.description}</div>
               </div>
-            </div>
-          </li>
-        );
-      })}
+              <div className="eventContent">
+                <div className="eventImage">
+                  <img src={event.image_urls[0]} alt="" />
+                </div>
+                <div className="eventDetails">
+                  <div className="eventName">
+                    {event.name}
+                    <a href={`https://maps.google.com/?q=${lat},${long}`}>[{event.coordinates}]</a>
+                  </div>
+                  <div className="eventDescription">{event.description}</div>
+                </div>
+              </div>
+            </li>
+          );
+        })
+      ) : (
+        <p>No RSVPs listed</p>
+      )}
     </ol>
   );
 }
