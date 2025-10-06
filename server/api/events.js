@@ -29,7 +29,6 @@ router
       const events = await getAllEvents();
       res.status(200).send({ events });
     } catch (err) {
-      console.log(err);
       res.status(500).json(err);
     }
   })
@@ -60,7 +59,6 @@ router.route("/search").post(requireBody(["long1", "lat1", "long2", "lat2"]), as
     const events = await getNearbyEvents({ long1, lat1, long2, lat2 });
     res.status(200).send({ events });
   } catch (err) {
-    console.log(err);
     res.status(500).json(err);
   }
 });
@@ -93,7 +91,6 @@ router.route("/location").get(async (req, res) => {
     const eventsLocation = await getAllEventLocations();
     res.status(200).json({ eventsLocation });
   } catch (err) {
-    console.log(err);
     res.status(500).json(err);
   }
 });
@@ -151,7 +148,6 @@ router
 
       res.status(200).json(rsvpEvent);
     } catch (err) {
-      console.log(err);
       res.status(500).json(err);
     }
   })
@@ -177,7 +173,6 @@ router
 
       res.status(200).json(rsvpEvent);
     } catch (err) {
-      console.log(err);
       res.status(500).json(err);
     }
   });
