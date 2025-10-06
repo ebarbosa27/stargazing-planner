@@ -10,12 +10,10 @@ export default function Account() {
   const { data, loading, error } = useQuery("/users/accountPage", "accountPage");
 
   if (error) {
-    console.log(error);
+    console.error(error);
     return <div>ERROR</div>;
   }
   if (loading || !data) return <div>Loading . . .</div>;
-
-  console.log(data);
 
   return (
     <div id="accountPage">

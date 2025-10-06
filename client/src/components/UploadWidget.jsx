@@ -1,36 +1,46 @@
-import React, { useEffect, useState } from "react";
-import { Cloudinary } from "@cloudinary/url-gen";
-import { auto } from "@cloudinary/url-gen/actions/resize";
-import { autoGravity } from "@cloudinary/url-gen/qualifiers/gravity";
-import { AdvancedImage } from "@cloudinary/react";
+import { useEffect, useState } from "react";
 
-export default function UploadWidget() {
-  const [selectedFile, setSelectedFile] = useState(null);
-  const [imageUpload, setImageUpload] = useState(null);
-
-  const cld = new Cloudinary({ cloud: { cloudName: "dvetua8fh" } });
+export default function UploadWidget({ selectedFiles, setSelectedFiles }) {
+  const [uploadedImages, setUploadedImages] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (!selectedFile || true) return;
-    console.log(selectedFile);
-    const img = cld
-      .image(`[Public ID Here]`)
-      .format("auto")
-      .quality("auto")
-      .resize(auto().gravity(autoGravity()).width(500).height(500));
-    setImageUpload(img);
-  }, [selectedFile]);
+    try {
+      const imageUrls = [];
+      for (let i = 0; i < selectedFiles.length; i++) {
+        if (selectedFiles[i].size > 10 ** 7) throw new Error("Image cannot be larger than 10MB");
+        imageUrls.push(URL.createObjectURL(selectedFiles[i]));
+      }
+      setUploadedImages(imageUrls);
+      setError(null);
+    } catch (err) {
+      console.error(err);
+      setError(err.message);
+    }
+  }, [selectedFiles]);
 
   return (
-    <>
+    <div className="uploadWidget">
       <input
+        name="image"
         type="file"
         accept="image/*"
+        multiple
         onChange={(e) => {
-          setSelectedFile(e.target.files[0]);
+          setSelectedFiles(e.target.files);
         }}
       />
-      {imageUpload && <AdvancedImage cldImg={imageUpload} />}
-    </>
+      {uploadedImages && (
+        <ul className="selectedImages">
+          {uploadedImages.map((image, idx) => (
+            <li key={`upload-${idx}`}>
+              <img src={image} alt="image" />
+            </li>
+          ))}
+          <li /> {/* last item meant for styling  */}
+        </ul>
+      )}
+      {error && <output>{error}</output>}
+    </div>
   );
 }
