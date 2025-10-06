@@ -1,15 +1,22 @@
 import { useState } from "react";
+import useMutation from "../api/useMutation";
 import UploadWidget from "./UploadWidget";
 import SelectLocation from "./SelectLocation";
 import "./createEvent.css";
 
 export default function CreateEventDisplay({ setShowEvent }) {
   const [selectedFiles, setSelectedFiles] = useState([]);
+  const [selectedLocation, setSelectedLocation] = useState(null);
+  const [error, setError] = useState(null);
+
+  const createEvent = useMutation("POST", "/events/", ["events"]);
+  const updateImages = useMutation("PATCH", "/events/images", ["events"]);
 
   const url = `https://api.cloudinary.com/v1_1/${import.meta.env.VITE_CLOUD_NAME}/image/upload`;
-  async function uploadImages() {
+  async function uploadImages(eventId) {
     try {
-      selectedFiles.forEach(async (file) => {
+      const fileArray = Array.from(selectedFiles);
+      const results = fileArray.map(async (file) => {
         const formData = new FormData();
         formData.append("file", file);
         formData.append("upload_preset", "limited-file");
@@ -24,24 +31,35 @@ export default function CreateEventDisplay({ setShowEvent }) {
         const imageUrl = responseJSON.url;
         return imageUrl;
       });
+      const imageUrls = await Promise.all(results);
+      await updateImages.mutate({ imageUrls, eventId });
+      updateImages.data && console.log("Event Created Succesfully");
     } catch (err) {
       console.error(err);
     }
   }
 
-  async function handleCreateEvent(formData) {
+  async function handleCreateEvent(e) {
+    e.preventDefault();
+    const formData = new FormData(e.target);
     const event = {
       name: formData.get("name"),
       date: formData.get("date"),
       description: formData.get("description"),
+      location: selectedLocation,
     };
-    console.log(event);
-
     try {
-      // await fetch();
-      // await uploadImages();
+      setError(null);
+
+      for (const key in event) {
+        if (!event[key]) throw new Error(`The ${key} is missing from the event details.`);
+      }
+      await createEvent.mutate(event);
+      console.log(createEvent.data);
+      await uploadImages(createEvent.data.id);
     } catch (err) {
       console.error(err);
+      setError(err.message);
     }
   }
 
@@ -52,7 +70,7 @@ export default function CreateEventDisplay({ setShowEvent }) {
           <img src={"close-icon.svg"} />
         </button>
         <h3>Create Event</h3>
-        <form action={handleCreateEvent}>
+        <form onSubmit={handleCreateEvent}>
           <label>
             <span>Name</span>
             <input type="text" name="name" />
@@ -67,13 +85,17 @@ export default function CreateEventDisplay({ setShowEvent }) {
           </label>
           <label>
             <span>Location</span>
-            <SelectLocation />
+            <SelectLocation
+              selectedLocation={selectedLocation}
+              setSelectedLocation={setSelectedLocation}
+            />
           </label>
           <label>
             <span>Images</span>
             <UploadWidget selectedFiles={selectedFiles} setSelectedFiles={setSelectedFiles} />
           </label>
           <button type="submit">Submit</button>
+          {error && <output>{error}</output>}
         </form>
       </div>
     </div>

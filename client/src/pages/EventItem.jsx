@@ -27,7 +27,11 @@ export default function EventItem() {
     <div id="eventItemPage">
       <h2>{data.name}</h2>
       <p>{data.description}</p>
-      <GalleryCatalogue data={data} />
+      {data?.image_urls ? (
+        <GalleryCatalogue data={data} />
+      ) : (
+        <div style={{ height: "100px" }}>[No images]</div>
+      )}
       {userToken ? (
         <div className="eventActionContainer">
           <FavoriteAction eventId={eventId} />

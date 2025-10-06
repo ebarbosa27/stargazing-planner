@@ -14,7 +14,10 @@ export default function EventListings({ events }) {
         return (
           <li key={event.id} onClick={() => navigate(`/events/${event.id}`)}>
             <div className="listImageContainer">
-              <img src={event.image_urls[0]} alt="View of Location" />
+              <img
+                src={event.image_urls ? event.image_urls[0] : undefined}
+                alt="View of Location"
+              />
             </div>
             <div className="listContentContainer">
               <h3>{event.name}</h3>

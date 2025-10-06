@@ -17,9 +17,8 @@ export default function Posts() {
       <ol>
         {data?.results
           ? data?.results.map((newsEvent) => {
-              console.log(newsEvent);
               return (
-                <li>
+                <li key={newsEvent.id}>
                   <div style={{ width: "300px", aspectRatio: "1" }}>
                     <img
                       src={newsEvent.image_url}

@@ -78,3 +78,19 @@ export async function getAllEventLocations() {
   const { rows: eventsLocation } = await db.query(sql);
   return eventsLocation;
 }
+
+export async function patchEventImages({ eventId, imageUrls, userId }) {
+  const sql = `
+  UPDATE 
+    events
+  SET
+    image_urls = $1
+  WHERE
+    id = $2 AND user_id = $3 
+  RETURNING *
+  `;
+  const {
+    rows: [event],
+  } = await db.query(sql, [imageUrls, eventId, userId]);
+  return event;
+}

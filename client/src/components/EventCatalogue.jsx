@@ -40,7 +40,7 @@ export default function EventCatalogue({ events, componentName }) {
             return (
               <li key={event.id} onClick={() => navigate(`/events/${event.id}`)}>
                 <div className="imageContainer">
-                  <img src={event.image_urls[0]} alt="Event" />
+                  <img src={event.image_urls ? event.image_urls[0] : undefined} alt="Event" />
                 </div>
                 <p>{event.name}</p>
               </li>

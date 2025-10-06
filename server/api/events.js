@@ -3,10 +3,12 @@ const router = express.Router();
 export default router;
 
 import {
+  createEvent,
   getAllEventLocations,
   getAllEvents,
   getEventById,
   getNearbyEvents,
+  patchEventImages,
 } from "../db/queries/events.js";
 import requireUser from "../middleware/requireUser.js";
 import requireBody from "../middleware/requireBody.js";
@@ -30,18 +32,16 @@ router
       res.status(500).json(err);
     }
   })
-  .post(
-    requireUser,
-    requireBody(["name", "date", "location", "description", "imageUrls"]),
-    async (req, res) => {
-      try {
-        res.status(201).json({});
-      } catch (err) {
-        console.error(err);
-        res.status(500).json(err);
-      }
+  .post(requireUser, requireBody(["name", "date", "location", "description"]), async (req, res) => {
+    try {
+      const userId = req.user.id;
+      const eventData = await createEvent({ ...req.body, userId });
+      res.status(201).json(eventData);
+    } catch (err) {
+      console.error(err);
+      res.status(500).json(err);
     }
-  );
+  });
 
 router.route("/search").post(requireBody(["long1", "lat1", "long2", "lat2"]), async (req, res) => {
   try {
@@ -180,6 +180,17 @@ router.route("/rsvp/:eventId").get(async (req, res) => {
 
     res.status(200).json({ message: "RSVP does exists", exists: true, status: rsvpEvent.status });
   } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
+router.route("/images").patch(requireBody(["imageUrls", "eventId"]), async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const event = await patchEventImages({ ...req.body, userId });
+    res.status(200).json(event);
+  } catch (err) {
+    console.error(err);
     res.status(500).json(err);
   }
 });

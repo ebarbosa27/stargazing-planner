@@ -19,10 +19,20 @@
 .locationContainer {
   display: flex;
   justify-content: space-between;
+  align-items: end;
+  gap: 1rem;
   width: 100%;
   font-size: 16px;
 }
 
 .locationContainer button {
   font-size: 16px;
+}
+
+.locationContainer .locationInput {
+  appearance: textfield;
+  border: none;
+  outline: none;
+  user-select: none;
+  pointer-events: none;
 }
