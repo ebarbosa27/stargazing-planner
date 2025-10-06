@@ -22,6 +22,16 @@ export async function createEvent({ name, date, location, userId, description, i
   return event;
 }
 
+export async function deleteEvent({ userId, eventId }) {
+  const sql = `
+DELETE FROM events WHERE id = $1 AND user_id = $2 RETURNING * 
+`;
+  const {
+    rows: [event],
+  } = await db.query(sql, [eventId, userId]);
+  return event;
+}
+
 export async function getAllEvents() {
   const sql = `
   SELECT 

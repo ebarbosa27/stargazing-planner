@@ -2,6 +2,7 @@ import { useState } from "react";
 import useQuery from "../api/useQuery";
 import EventCatalogue from "../components/EventCatalogue";
 import CreateEventDisplay from "../components/CreateEventDisplay";
+import UserEventsList from "../components/UserEventsList";
 import "./account.css";
 
 export default function Account() {
@@ -18,10 +19,16 @@ export default function Account() {
   return (
     <div id="accountPage">
       <div className="accountInfo">
-        <h3>Hello {data.username}!</h3>
-        <p>{data.email}</p>
-        <button onClick={() => setShowEvent(true)}>Create Event</button>
-        <button>Create Hotspot</button>
+        <div>
+          <h3>Hello {data.username}!</h3>
+          <p>{data.email}</p>
+          <button onClick={() => setShowEvent(true)}>Create Event</button>
+          <button>Create Hotspot</button>
+        </div>
+        <div className="userActivities">
+          <h3>My Events</h3>
+          <UserEventsList />
+        </div>
       </div>
       <div className="eventInteractions">
         <EventCatalogue events={data.rsvp_events} componentName="rsvp" />

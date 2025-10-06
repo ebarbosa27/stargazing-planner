@@ -82,6 +82,16 @@ router.route("/events").get(async (req, res) => {
   }
 });
 
+router.route("/hotspots").get(async (req, res) => {
+  try {
+    const hotspot = await getUserHotspots({ userId: req.user.id });
+    if (!hotspot) return res.status(404).json({ message: "No data found" });
+    res.status(200).json({ hotspot });
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 router
   .route("/rsvps")
   .get(async (req, res) => {
@@ -120,16 +130,6 @@ router
       res.status(500).json(err);
     }
   });
-
-router.route("/hotspots").get(async (req, res) => {
-  try {
-    const hotspot = await getUserHotspots({ userId: req.user.id });
-    if (!hotspot) return res.status(404).json({ message: "No data found" });
-    res.status(200).json({ hotspot });
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
 
 router
   .route("/favorites")

@@ -5,7 +5,7 @@
 }
 
 .accountInfo {
-  flex: 1;
+  flex: 2;
   display: flex;
   flex-direction: column;
   min-width: 0;
@@ -21,7 +21,7 @@
 }
 
 .eventInteractions {
-  flex: 2;
+  flex: 3;
   min-width: 0;
 }
 
@@ -94,4 +94,31 @@
   text-shadow: 2px 2px 2px black;
   background-color: rgba(128, 128, 128, 0.5);
   border-radius: 0 4px 0 0;
+}
+
+.accountInfo .userActivities ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.accountInfo .userActivities ul li {
+  display: flex;
+  align-items: center;
+  border: 2px solid rgb(216, 216, 216);
+  padding: 0.2rem;
+}
+
+.accountInfo .userActivities ul li .eventName {
+  flex: 1;
+  margin: 0 1rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.accountInfo .userActivities ul li button {
+  width: fit-content;
+  padding: 0.2rem 0.5rem;
 }

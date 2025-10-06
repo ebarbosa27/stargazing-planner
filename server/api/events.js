@@ -4,6 +4,7 @@ export default router;
 
 import {
   createEvent,
+  deleteEvent,
   getAllEventLocations,
   getAllEvents,
   getEventById,
@@ -39,6 +40,16 @@ router
       res.status(201).json(eventData);
     } catch (err) {
       console.error(err);
+      res.status(500).json(err);
+    }
+  })
+  .delete(requireUser, requireBody(["eventId"]), async (req, res) => {
+    try {
+      const userId = req.user.id;
+      const eventDeleted = await deleteEvent({ ...req.body, userId });
+      if (!eventDeleted) return res.status(404).json({ message: "Event not found" });
+      res.status(200).json(eventDeleted);
+    } catch (err) {
       res.status(500).json(err);
     }
   });

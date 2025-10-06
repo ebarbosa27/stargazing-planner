@@ -15,6 +15,7 @@ export default function CreateEventDisplay({ setShowEvent }) {
   const { mutate: updateImages, data: updateData } = useMutation("PATCH", "/events/images", [
     "events",
   ]);
+  const { mutate: deleteEvent } = useMutation("DELETE", "/events", ["events"]);
 
   useEffect(() => {
     if (!eventData && !loading) return;
@@ -23,8 +24,6 @@ export default function CreateEventDisplay({ setShowEvent }) {
 
   useEffect(() => {
     if (!updateData) return;
-    console.log("Images updated successfully");
-    console.log(updateData);
     setShowEvent(false);
   }, [updateData]);
 
@@ -35,7 +34,7 @@ export default function CreateEventDisplay({ setShowEvent }) {
       const results = fileArray.map(async (file) => {
         const formData = new FormData();
         formData.append("file", file);
-        formData.append("upload_preset", "limited-file");
+        formData.append("upload_preset", "ml_default");
         formData.append("api_key", import.meta.env.VITE_CLOUD_APIKEY);
 
         const response = await fetch(url, {
@@ -51,6 +50,7 @@ export default function CreateEventDisplay({ setShowEvent }) {
       setLoading(false);
       await updateImages({ imageUrls, eventId });
     } catch (err) {
+      await deleteEvent({ eventId });
       console.error(err);
       setLoading(false);
       setError(err.message);
