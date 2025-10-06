@@ -12,7 +12,6 @@ export default function EventsMapComponent({ refetchData, searchEvents }) {
   const [zoom, setZoom] = useState(3.5);
   const [markers] = useState(new Array());
 
-  if (!MAPBOX_KEY) return <div></div>;
   useEffect(() => {
     mapboxgl.accessToken = MAPBOX_KEY;
     const map = new mapboxgl.Map({

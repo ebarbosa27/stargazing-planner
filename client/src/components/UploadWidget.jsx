@@ -6,6 +6,7 @@ export default function UploadWidget({ selectedFiles, setSelectedFiles }) {
 
   useEffect(() => {
     try {
+      if (selectedFiles.length === 0) return;
       const imageUrls = [];
       for (let i = 0; i < selectedFiles.length; i++) {
         if (selectedFiles[i].size > 10 ** 7) throw new Error("Image cannot be larger than 10MB");

@@ -1,6 +1,6 @@
 #createEventDisplay {
   position: absolute;
-  background-color: rgba(173, 216, 230, 0.1);
+  backdrop-filter: blur(1px) brightness(90%);
   left: 0;
   right: 0;
   top: 0;
@@ -8,38 +8,100 @@
 
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
+  padding: 2rem 0;
 }
 
 #createEventDisplay .createContainer {
+  position: relative;
   font-size: 24px;
-  background-color: gray;
+  background-color: rgb(75, 83, 90);
+  box-shadow: 0 0 5px black;
+  border-radius: 0.4rem;
+
   width: 500px;
   max-width: 90%;
-  height: 500px;
-  max-height: 90%;
+  height: auto;
+  max-height: 100%;
+  overflow-y: auto;
 }
 
 #createEventDisplay .createContainer form {
   display: flex;
   flex-direction: column;
+  gap: 2rem;
+  padding: 3rem;
 }
 
-#createEventDisplay .createContainer form label input {
-  width: 90%;
+#createEventDisplay .createContainer form label {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+}
+
+#createEventDisplay .createContainer form label span {
+  font-weight: bold;
+  color: white;
+}
+
+#createEventDisplay .createContainer form input,
+#createEventDisplay .createContainer form textarea {
+  width: 100%;
   align-self: center;
+  padding: 0.2rem 0;
+}
+
+#createEventDisplay .createContainer form textarea {
+  min-height: 100px;
 }
 
 #createEventDisplay .closeDisplay {
-  position: fixed;
+  position: absolute;
   top: 0;
   right: 0;
-  width: 100px;
-  height: 100px;
+  margin: 0;
+  padding: 0.2rem;
+
   background-color: transparent;
-  color: white;
-  font-weight: bold;
-  font-size: 48px;
   border: none;
   cursor: pointer;
+}
+
+#createEventDisplay .closeDisplay img {
+  width: 32px;
+  height: 32px;
+  filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(136deg) brightness(104%) contrast(102%);
+}
+
+#createEventDisplay .selectedImages {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: auto;
+
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.1rem;
+}
+
+#createEventDisplay .selectedImages li {
+  height: 5vh;
+  flex-grow: 1;
+}
+
+#createEventDisplay .selectedImages li img {
+  max-height: 100%;
+  min-width: 100%;
+  object-fit: cover;
+  vertical-align: bottom;
+}
+
+#createEventDisplay .selectedImages li:last-child {
+  flex-grow: 10;
+}
+
+#createEventDisplay output {
+  color: red;
+  font-size: 16px;
+  text-shadow: 1px 1px 3px rgba(75, 75, 75, 1);
 }
