@@ -1,20 +1,8 @@
 import { useNavigate } from "react-router";
 import "./eventListings.css";
-import { useEffect, useState } from "react";
 
 export default function EventListings({ events }) {
   const navigate = useNavigate();
-
-  const [upcomingEvents, setUpcomingEvents] = useState([]);
-
-  useEffect(() => {
-    if (!events) return;
-    const upcoming = events.filter((event) => {
-      const eventDate = new Date(event.date);
-      if (eventDate > Date.now()) return true;
-    });
-    setUpcomingEvents(upcoming);
-  }, [events]);
 
   const dayOfWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
@@ -23,8 +11,8 @@ export default function EventListings({ events }) {
 
   return (
     <ol className="eventsListing">
-      {upcomingEvents && upcomingEvents.length > 0 ? (
-        upcomingEvents.map((event) => {
+      {events && events.length > 0 ? (
+        events.map((event) => {
           const [long, lat] = event.coordinates;
 
           const eventDate = new Date(event.date);
@@ -40,7 +28,7 @@ export default function EventListings({ events }) {
               <div className="eventHeader">
                 <div className="eventDate">{dateString}</div>
                 <div className="eventCountdown">
-                  {daysAway > 1 ? `${Math.floor(daysAway)} days away` : "today"}
+                  {daysAway > 0 ? `${Math.floor(daysAway)} days away` : "passed"}
                 </div>
               </div>
               <div className="eventContent">

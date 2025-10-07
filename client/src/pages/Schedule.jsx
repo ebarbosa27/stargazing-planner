@@ -4,9 +4,18 @@ import EventListings from "../components/EventListings";
 import "./schedule.css";
 
 export default function Schedule() {
-  const [upcomingEvents, setUpcomingEvents] = useState(null);
-
   const { data: rsvpEvents, loading, error } = useQuery("/users/rsvps", "events");
+
+  const [upcomingEvents, setUpcomingEvents] = useState([]);
+
+  useEffect(() => {
+    if (!rsvpEvents?.events) return;
+    const upcoming = rsvpEvents.events.filter((event) => {
+      const eventDate = new Date(event.date);
+      if (eventDate > Date.now()) return true;
+    });
+    setUpcomingEvents(upcoming);
+  }, [rsvpEvents]);
 
   useEffect(() => {
     if (!rsvpEvents || upcomingEvents) return;
