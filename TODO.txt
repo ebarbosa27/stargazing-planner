@@ -1,2 +1,0 @@
-- Finalize schema for events and hotspots to use PostGIS location 
-- Seed data in schema 
