@@ -3,14 +3,25 @@ import useMutation from "../api/useMutation";
 import EventsMapComponent from "../components/EventsMapComponent";
 import EventListings from "../components/EventListings";
 import "./events.css";
+import { useEffect, useState } from "react";
 
 export default function Events() {
-  const allEvents = useQuery("/events", "events");
+  const defaultEvents = useQuery("/events", "events");
   const searchEvents = useMutation("POST", "/events/search", ["nearbyEvents"]);
 
-  if (allEvents.loading) return <div>Loading . . . </div>;
+  const [markerEvents, setMarkerEvents] = useState();
 
-  if (allEvents.error) return <div>ERROR</div>;
+  useEffect(() => {
+    if (searchEvents.data) {
+      setMarkerEvents(searchEvents.data);
+    } else if (defaultEvents.data) {
+      setMarkerEvents(defaultEvents.data);
+    }
+  }, [defaultEvents, searchEvents]);
+
+  if (defaultEvents.loading || !markerEvents?.events) return <div>Loading . . . </div>;
+
+  if (defaultEvents.error) return <div>ERROR</div>;
 
   function handleSearchArea(searchBound) {
     searchEvents.mutate(searchBound);
@@ -19,15 +30,13 @@ export default function Events() {
   return (
     <div id="eventsPage">
       <h2>Events </h2>
-      {allEvents.data?.events && (
+      {defaultEvents.data?.events && (
         <EventsMapComponent
           refetchData={handleSearchArea}
           searchEvents={searchEvents.data?.events}
         />
       )}
-      <EventListings
-        events={searchEvents?.data ? searchEvents?.data?.events : allEvents?.data?.events}
-      />
+      <EventListings events={markerEvents.events} />
     </div>
   );
 }
