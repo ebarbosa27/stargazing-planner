@@ -10,9 +10,13 @@
 
 #app #content {
   width: 95vw;
-  margin: 1.5rem;
+  margin: 0;
+  padding: 2rem;
+  padding-top: 1rem;
 
   display: flex;
   justify-content: center;
   max-width: 1000px;
+  background-color: #19222b;
+  border-radius: 0 0 1rem 1rem;
 }

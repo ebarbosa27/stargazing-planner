@@ -8,6 +8,8 @@
   background-color: #1f2833;
   height: 5rem;
   overflow: hidden;
+  box-shadow: #000000 0 0 1rem;
+  z-index: 10;
 }
 
 .pageName a {
@@ -17,6 +19,10 @@
   text-decoration: none;
   text-wrap: nowrap;
   margin-right: 1rem;
+}
+
+.pageName:hover {
+  text-decoration: underline;
 }
 
 .navLinks {
