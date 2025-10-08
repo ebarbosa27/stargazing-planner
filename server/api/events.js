@@ -7,8 +7,10 @@ import {
   deleteEvent,
   getAllEventLocations,
   getAllEvents,
+  getAllUpcomingEvents,
   getEventById,
   getNearbyEvents,
+  getUpcomingNearbyEvents,
   patchEventImages,
 } from "../db/queries/events.js";
 import requireUser from "../middleware/requireUser.js";
@@ -94,6 +96,42 @@ router.route("/location").get(async (req, res) => {
     res.status(500).json(err);
   }
 });
+
+router.route("/upcoming").get(async (req, res) => {
+  try {
+    let requestLimit = parseInt(req.query.limit) || undefined;
+    const startCount = parseInt(req.query.start) || undefined;
+
+    const events = await getAllUpcomingEvents();
+    if (requestLimit && requestLimit > events.length) {
+      const endCount = startCount ? requestLimit + startCount : requestLimit;
+      const filteredEvents = events.slice(startCount || 0, endCount);
+      return res.status(200).json({ events: filteredEvents });
+    }
+    res.status(200).json({ events });
+  } catch (err) {
+    res.status(500).json({ err });
+  }
+});
+
+router
+  .route("/upcoming/search")
+  .post(requireBody(["long1", "lat1", "long2", "lat2"]), async (req, res) => {
+    try {
+      let requestLimit = parseInt(req.query.limit) || undefined;
+      const startCount = parseInt(req.query.start) || undefined;
+
+      const events = await getUpcomingNearbyEvents({ ...req.body });
+      if (requestLimit && requestLimit > events.length) {
+        const endCount = startCount ? requestLimit + startCount : requestLimit;
+        const filteredEvents = events.slice(startCount || 0, endCount);
+        return res.status(200).json({ events: filteredEvents });
+      }
+      res.status(200).json({ events });
+    } catch (err) {
+      res.status(500).json({ err });
+    }
+  });
 
 router.use(requireUser);
 

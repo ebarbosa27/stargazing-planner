@@ -23,7 +23,6 @@ export default function Account() {
           <h3>Hello {data.username}!</h3>
           <p>{data.email}</p>
           <button onClick={() => setShowEvent(true)}>Create Event</button>
-          <button>Create Hotspot</button>
         </div>
         <div className="userActivities">
           <h3>My Events</h3>

@@ -18,7 +18,7 @@ export default function Register() {
         throw Error("Email, username, and password is required");
       }
       await register({ email, username, password });
-      navigate("/");
+      navigate("/account");
     } catch (err) {
       setError(err.message);
     }

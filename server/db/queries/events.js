@@ -41,10 +41,25 @@ export async function getAllEvents() {
     events
   ORDER BY  
     created_at DESC
-  LIMIT 
-    10
   `;
   const { rows: events } = await db.query(sql);
+  return events;
+}
+
+export async function getAllUpcomingEvents() {
+  const now = new Date().toISOString();
+  const sql = `
+  SELECT 
+    *, 
+    ARRAY[ST_X(location::geometry), ST_Y(location::geometry)] AS coordinates 
+  FROM 
+    events
+  WHERE
+    date > $1
+  ORDER BY  
+    created_at DESC
+  `;
+  const { rows: events } = await db.query(sql, [now]);
   return events;
 }
 
@@ -59,6 +74,22 @@ export async function getNearbyEvents({ long1, lat1, long2, lat2 }) {
     location && ST_MakeEnvelope($1, $2, $3, $4, 4326)::geography;
   `;
   const { rows: events } = await db.query(sql, [long1, lat1, long2, lat2]);
+  return events;
+}
+
+export async function getUpcomingNearbyEvents({ long1, lat1, long2, lat2 }) {
+  const now = new Date().toISOString();
+  const sql = `
+  SELECT 
+    *,
+    ARRAY[ST_X(location::geometry), ST_Y(location::geometry)] AS coordinates 
+  FROM 
+    events
+  WHERE
+    location && ST_MakeEnvelope($1, $2, $3, $4, 4326)::geography
+    AND date > $5;
+  `;
+  const { rows: events } = await db.query(sql, [long1, lat1, long2, lat2, now]);
   return events;
 }
 

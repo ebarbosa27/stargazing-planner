@@ -9,12 +9,12 @@ export default function Navbar() {
   return (
     <div id="navbar">
       <div className="pageName">
-        <NavLink to="/">Star Gazing Planner</NavLink>
+        <NavLink to="/">Stargaze Planner</NavLink>
       </div>
       <div className="navLinks">
         <div className="navPages">
           <NavLink to="/" className={({ isActive }) => (isActive ? "activeSite" : "")}>
-            Posts
+            Home
           </NavLink>
           <NavLink to="/events" className={({ isActive }) => (isActive ? "activeSite" : "")}>
             Events

@@ -3,11 +3,57 @@
   flex-direction: "column";
 }
 
+#welcomeContainer {
+  position: relative;
+  font-size: 24px;
+  width: 100%;
+  height: 30rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+#welcomeContainer .message {
+  z-index: 10;
+  color: white;
+  text-shadow: 1px 1px 1px black;
+  padding: 3rem;
+}
+
+#welcomeContainer .navLink {
+  text-align: end;
+}
+
+#welcomeContainer .navLink a {
+  color: inherit;
+}
+
+#welcomeContainer img {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 0 60%;
+  filter: blur(1px) brightness(120%);
+  animation: shiftLight 5s ease-in-out infinite alternate;
+}
+
+@keyframes shiftLight {
+  from {
+    filter: brightness(120%);
+  }
+  to {
+    filter: brightness(100%);
+  }
+}
+
 #postsPage ol {
   list-style: none;
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  padding: 0;
+  margin: 1rem;
 }
 
 #postsPage li {
