@@ -11,9 +11,9 @@ export default function EventItem() {
   const { token: userToken } = useAuth();
 
   const { data, loading, error } = useQuery(`/events/details/${eventId}`, "events");
-  const rsvpEvent = useQuery(`/events/rsvp/${eventId}`, "clientRsvp");
 
   const [eventDate, setEventDate] = useState(null);
+  const [rsvpStatus, setRsvpStatus] = useState(null);
 
   useEffect(() => {
     if (!data) return;
@@ -45,14 +45,12 @@ export default function EventItem() {
             [{data.coordinates[0]}, {data.coordinates[1]}]
           </a>
         </div>
-        <div className="eventStatus">
-          <h3>Status: </h3>
-          {rsvpEvent?.data?.exists ? (
-            <span>{rsvpEvent.data.status}</span>
-          ) : (
-            <span>Not attending</span>
-          )}
-        </div>
+        {rsvpStatus && (
+          <div className="eventStatus">
+            <h3>Status: </h3>
+            {rsvpStatus?.exists ? <span>{rsvpStatus.status}</span> : <span>Not attending</span>}
+          </div>
+        )}
       </div>
       <div>
         <h3>About This Event</h3>
@@ -68,7 +66,7 @@ export default function EventItem() {
         )}
       </div>
       {userToken ? (
-        <UserEventActions eventId={eventId} rsvpEvent={rsvpEvent} />
+        <UserEventActions eventId={eventId} setRsvpStatus={setRsvpStatus} />
       ) : (
         <NavLink to="/register">Interested in attending? Sign up here!</NavLink>
       )}
