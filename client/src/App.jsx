@@ -21,7 +21,7 @@ function App() {
           <Route path="/schedule" element={<Schedule />} />
           <Route path="/account" element={<Account />} />
         </Route>
-        <Route element={<Layout disableNavbar />}>
+        <Route>
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
         </Route>

@@ -9,7 +9,7 @@ export default function Navbar() {
   return (
     <div id="navbar">
       <div className="pageName">
-        <NavLink to="/">Stargazing Planner</NavLink>
+        <NavLink to="/">Stargaze Planner</NavLink>
       </div>
       <div className="navLinks">
         <div className="navPages">

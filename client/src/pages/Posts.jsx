@@ -1,3 +1,4 @@
+import { NavLink } from "react-router";
 import useQuery from "../api/useQuery";
 import "./posts.css";
 
@@ -9,6 +10,15 @@ export default function Posts() {
 
   return (
     <div id="postsPage">
+      <div id="welcomeContainer">
+        <div className="message">
+          <h2>WELCOME TO THE STARGAZE PLANNER</h2>
+          <div className="navLink">
+            <NavLink to="/events">Explore Events {"->"}</NavLink>
+          </div>
+        </div>
+        <img src="https://res.cloudinary.com/dvetua8fh/image/upload/v1759944610/nhwytdkl1im5i0okrrpv.jpg" />
+      </div>
       <h2>News </h2>
       <ol>
         {data?.results
