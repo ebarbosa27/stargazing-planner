@@ -20,3 +20,8 @@
   background-color: #19222b;
   border-radius: 0 0 1rem 1rem;
 }
+
+ol,
+ul {
+  padding: 0;
+}

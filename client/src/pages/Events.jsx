@@ -18,7 +18,7 @@ export default function Events() {
 
   return (
     <div id="eventsPage">
-      <h2>Events Page</h2>
+      <h2>Events </h2>
       {allEvents.data?.events && (
         <EventsMapComponent
           refetchData={handleSearchArea}

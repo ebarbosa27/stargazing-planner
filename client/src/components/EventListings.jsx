@@ -24,21 +24,29 @@ export default function EventListings({ events }) {
           const daysAway = dateDifference / (1000 * 60 * 60 * 24);
 
           return (
-            <li key={event.id} onClick={() => navigate(`/events/${event.id}`)}>
-              <div className="eventHeader">
-                <div className="eventDate">{dateString}</div>
-                <div className="eventCountdown">
-                  {daysAway > 0 ? `${Math.floor(daysAway)} days away` : "passed"}
-                </div>
+            <li
+              key={event.id}
+              onClick={(e) => {
+                if (e.target.id === "googleNavigation") return;
+                navigate(`/events/${event.id}`);
+              }}
+            >
+              <div className="eventImage">
+                <img src={event.image_urls[0]} alt="" />
               </div>
               <div className="eventContent">
-                <div className="eventImage">
-                  <img src={event.image_urls[0]} alt="" />
+                <div className="eventHeader">
+                  <div className="eventDate">{dateString}</div>
+                  <div className="eventCountdown">
+                    {daysAway > 0 ? `${Math.floor(daysAway)} days away` : "passed"}
+                  </div>
                 </div>
                 <div className="eventDetails">
                   <div className="eventName">
                     {event.name}
-                    <a href={`https://maps.google.com/?q=${lat},${long}`}>[{event.coordinates}]</a>
+                    <a id="googleNavigation" href={`https://maps.google.com/?q=${lat},${long}`}>
+                      [{event.coordinates}]
+                    </a>
                   </div>
                   <div className="eventDescription">{event.description}</div>
                 </div>
