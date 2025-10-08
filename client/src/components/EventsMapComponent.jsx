@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import MarkerIcon from "./MarkerIcon";
 import mapboxgl from "mapbox-gl";
 import "mapbox-gl/dist/mapbox-gl.css";
 import "./map.css";
@@ -45,7 +46,14 @@ export default function EventsMapComponent({ refetchData, searchEvents }) {
   useEffect(() => {
     if (searchEvents) {
       searchEvents.forEach((event) => {
-        const marker = new mapboxgl.Marker().setLngLat(event.coordinates).addTo(mapRef.current);
+        const marker = new mapboxgl.Marker({ color: "#8caddfff" })
+          .setLngLat(event.coordinates)
+          .addTo(mapRef.current)
+          .setPopup(
+            new mapboxgl.Popup({ className: "markerPopup" }).setHTML(
+              `<a href="http://localhost:5173/events/${event.id}">${event.name}</a>`
+            )
+          );
         markers.push(marker);
       });
     }
