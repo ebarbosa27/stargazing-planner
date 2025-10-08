@@ -17,7 +17,7 @@ export default function Login() {
         throw Error("Username and password is required");
       }
       await login({ username, password });
-      navigate("/");
+      navigate("/account");
     } catch (err) {
       setError(err.message);
     }
