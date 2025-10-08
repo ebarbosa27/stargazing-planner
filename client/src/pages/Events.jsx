@@ -24,7 +24,6 @@ export default function Events() {
   if (defaultEvents.error) return <div>ERROR</div>;
 
   function handleSearchArea(searchBound) {
-    console.log(searchBound);
     searchEvents.mutate(searchBound);
   }
 

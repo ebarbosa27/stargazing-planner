@@ -1,13 +1,10 @@
-import { useParams } from "react-router";
+import { NavLink, useParams } from "react-router";
 import useQuery from "../api/useQuery";
 import GalleryCatalogue from "../components/GalleryCatalogue";
 import "./eventItem.css";
-import FavoriteAction from "../components/FavoriteAction";
 import { useAuth } from "../auth/AuthContext";
-import RsvpAction from "../components/RsvpAction";
-import EventRsvpDisplay from "../components/EventRsvpDisplay";
-import AttendingButton from "../components/AttendingButton";
-import InterestedButton from "../components/InterestedButton";
+import UserEventActions from "../components/UserEventActions";
+import { useEffect, useState } from "react";
 
 export default function EventItem() {
   const { eventId } = useParams();
@@ -16,35 +13,65 @@ export default function EventItem() {
   const { data, loading, error } = useQuery(`/events/details/${eventId}`, "events");
   const rsvpEvent = useQuery(`/events/rsvp/${eventId}`, "clientRsvp");
 
+  const [eventDate, setEventDate] = useState(null);
+
+  useEffect(() => {
+    if (!data) return;
+    const newDate = new Date(data.date);
+    const dateArray = newDate.toLocaleString().split(",");
+    setEventDate(dateArray);
+  }, [data]);
+
   if (loading) return <div>Loading . . .</div>;
   if (error) {
-    console.log(error);
     return <div>Encounterd error</div>;
   }
   if (!data) return <div id="eventItemPage" />;
 
   return (
     <div id="eventItemPage">
-      <h2>{data.name}</h2>
-      <p>{data.description}</p>
-      {data?.image_urls ? (
-        <GalleryCatalogue data={data} />
-      ) : (
-        <div style={{ height: "100px" }}>[No images]</div>
-      )}
-      {userToken ? (
-        <div className="eventActionContainer">
-          <FavoriteAction eventId={eventId} />
-          <div>
-            <AttendingButton eventId={eventId} rsvpEvent={rsvpEvent} />
-            <InterestedButton eventId={eventId} rsvpEvent={rsvpEvent} />
-          </div>
-          {/* <RsvpAction eventId /> */}
+      <div className="eventItemHeader">
+        <h2>{data.name}</h2>
+        {eventDate && (
+          <span>
+            Event Date: {eventDate[0]} @ {eventDate[1]}
+          </span>
+        )}
+      </div>
+      <div className="eventItemSubheader">
+        <div className="eventLocation">
+          <h3>Location:</h3>
+          <a href={`https://maps.google.com/?q=${data.coordinates[1]},${data.coordinates[0]}`}>
+            [{data.coordinates[0]}, {data.coordinates[1]}]
+          </a>
         </div>
+        <div className="eventStatus">
+          <h3>Status: </h3>
+          {rsvpEvent?.data?.exists ? (
+            <span>{rsvpEvent.data.status}</span>
+          ) : (
+            <span>Not attending</span>
+          )}
+        </div>
+      </div>
+      <div>
+        <h3>About This Event</h3>
+        <p>{data.description}</p>
+      </div>
+
+      <div>
+        <h3>Gallery</h3>
+        {data?.image_urls ? (
+          <GalleryCatalogue data={data} />
+        ) : (
+          <div style={{ height: "100px" }}>[No images]</div>
+        )}
+      </div>
+      {userToken ? (
+        <UserEventActions eventId={eventId} rsvpEvent={rsvpEvent} />
       ) : (
-        <div />
+        <NavLink to="/register">Interested in attending? Sign up here!</NavLink>
       )}
-      <div>{/* <EventRsvpDisplay eventId={eventId} rsvpEvent={rsvpEvent} /> */}</div>
     </div>
   );
 }
